@@ -1,0 +1,69 @@
+{
+    "name": "pf2e-aeon-stone-tinkering",
+    "title": "Pf2e Aeon Stone Tinkering",
+    "description": "Rules for creating experimental Aeon Stones for use in Pathfinder 2nd Edition.",
+    "packs": [
+        {
+            "name": "dots-aeon-stone-tinkering-items",
+            "label": "Pf2e Aeon Stone Tinkering Items",
+            "type": "Item",
+            "system": "pf2e",
+            "path": "packs/dots-aeon-stone-tinkering-items.db",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            },
+            "module": "pf2e-aeon-stone-tinkering"
+        },
+        {
+            "name": "dots-aeon-stone-tinkering-macros",
+            "label": "Pf2e Aeon Stone Tinkering macros",
+            "type": "Macro",
+            "system": "pf2e",
+            "path": "packs/dots-aeon-stone-tinkering-macros.db",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            },
+            "module": "pf2e-aeon-stone-tinkering"
+        },
+        {
+            "name": "dots-aeon-stone-tinkering-journals",
+            "label": "Pf2e Aeon Stone Tinkering Journals",
+            "type": "JournalEntry",
+            "system": "pf2e",
+            "path": "packs/dots-aeon-stone-tinkering-journals.db",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            },
+            "module": "pf2e-aeon-stone-tinkering"
+        }
+    ],
+    "url": "https://github.com/dotadd/pf2e-aeon-stone-tinkering",
+    "manifest": "https://raw.githubusercontent.com/dotadd/pf2e-aeon-stone-tinkering/main/module.json",
+    "download": "https://github.com/dotadd/pf2e-aeon-stone-tinkering/archive/refs/heads/main.zip",
+    "id": "pf2e-aeon-stone-tinkering",
+    "authors": [
+        {
+            "name": "dotadd"
+        }
+    ],
+    "compatibility": {
+        "minimum": 13.348,
+        "verified": 13.348
+    },
+    "relationships": {
+        "systems": [
+            {
+                "id": "pf2e",
+                "type": "system",
+                "manifest": "https://github.com/foundryvtt/pf2e/releases/latest/download/system.json",
+                "compatibility": {
+                    "minimum": "7.5.1"
+                }
+            }
+        ]
+    },
+    "version": "0.1"
+}

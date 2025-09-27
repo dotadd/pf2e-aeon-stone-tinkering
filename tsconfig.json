@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "moduleResolution": "bundler",
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "esModuleInterop": true,
+    "rootDir": "./src",
+    "outDir": "./scripts",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "lib": [
+      "ESNext",
+      "DOM",
+      "dom.iterable"
+    ],
+    "types": ["fvtt-types", "foundry-pf2e"],
+  },
+  "include": ["./src/**/*.ts"]
+}
