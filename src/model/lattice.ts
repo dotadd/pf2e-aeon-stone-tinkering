@@ -1,5 +1,5 @@
 import { EquipmentPF2e } from "foundry-pf2e";
-import { ComponentType } from "./componentType";
+import { ComponentType } from "./componentType.js";
 
 
 export class Lattice {

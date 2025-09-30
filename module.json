@@ -49,6 +49,9 @@
             "name": "dotadd"
         }
     ],
+    "scripts": [
+        "src/main.ts"
+    ],
     "compatibility": {
         "minimum": 13.348,
         "verified": 13.348

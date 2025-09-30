@@ -1,9 +1,9 @@
+"use strict";
 //import { AbilityCategory, Ability } from "./model/ability.js";
 //import { AeonStone } from "./model/aeonStone.js";
 //import { Impurity } from "./model/impurity.js";
 //import { Lattice } from "./model/lattice.js";
 //import { Mold } from "./model/mold.js";
-
 /*
 let abil1 = new Ability(AbilityCategory.lesserSpell, "You can cast the Figment cantrip at will.", ["testre_a_1", "testre_a_2"])
 let abil2 = new Ability(AbilityCategory.lesserInnateEffect, "You can lick your own elbow.", ["testre_b"])
@@ -19,30 +19,13 @@ let stone = new AeonStone(moldy, latticey, [impurity1, impurity2])
 
 console.log(stone)
 */
-function testFunction(param: string) {
-  console.log(param);
-  
+function testFunction(param) {
+    console.log(param);
 }
-
-declare module "fvtt-types/configuration" {
-  interface RequiredModule {
-    "pf2e-aeon-stone-tinkering": true;
-  }
-}
-
-declare module "fvtt-types/configuration" {
-  interface ModuleConfig {
-    "pf2e-aeon-stone-tinkering": {
-      api: {
-        testFunction: typeof testFunction,
-      }
-    }
-  }
-}
-
-Hooks.once("init", ()=> {
-  const mod = game.modules.get("pf2e-aeon-stone-tinkering");
-  mod.api = {
-    testFunction
-  }
+Hooks.once("init", () => {
+    const mod = game.modules.get("pf2e-aeon-stone-tinkering");
+    mod.api = {
+        testFunction
+    };
 });
+//# sourceMappingURL=main.js.map

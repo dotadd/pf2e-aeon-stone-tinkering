@@ -1,6 +1,6 @@
 import { EquipmentPF2e } from "foundry-pf2e";
-import { AbilityCategory } from "./ability";
-import { ComponentType } from "./componentType";
+import { AbilityCategory } from "./ability.js";
+import { ComponentType } from "./componentType.js";
 
 
 export class Mold {

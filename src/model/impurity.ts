@@ -1,6 +1,6 @@
-import { Ability, RawAbility } from "./ability";
 import { EquipmentPF2e } from "foundry-pf2e";
-import { ComponentType } from "./componentType";
+import { Ability, RawAbility } from "./ability.js";
+import { ComponentType } from "./componentType.js";
 
 
 export class Impurity {
