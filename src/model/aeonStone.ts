@@ -115,6 +115,29 @@ export class AeonStone {
     }
 
     public async toItem(): Promise<void> {
+        const rollOptionRulesElement: RuleElementSource = {
+            key: "RollOption",
+            //@ts-ignore
+            option: "experimental-aeon-stone-in-wayfinder",
+            label: "Experimental Aeon Stone in Wayfinder",
+            toggleable: true
+        };
+
+        let rulesElementsRegular = this.rulesElementsRegular;
+        let rulesElementsResonant = this.rulesElementsResonant;
+
+        for (let re of rulesElementsRegular) {
+            re.requiresInvestment = true;
+        }
+
+        for (let re of rulesElementsResonant) {
+            re.requiresInvestment = true;
+            re.predicate = ["experimental-aeon-stone-in-wayfinder"];
+        }
+
+        let rulesElementsTotal = rulesElementsRegular.concat(rulesElementsResonant);
+        rulesElementsTotal.push(rollOptionRulesElement);
+
         await Item.create(
             {
                 name: this.name,
@@ -150,10 +173,7 @@ export class AeonStone {
                         per: 1,
                         sizeSensitive: false
                     },
-                    // to do: add resonant abilities
-                    rules: [
-                        this.rulesElementsRegular,
-                    ],
+                    rules: rulesElementsTotal,
                     publication: {
                         title: "",
                         authors: "",
