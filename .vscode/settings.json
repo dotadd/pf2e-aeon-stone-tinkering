@@ -1,6 +1,3 @@
 {
-  "files.exclude": {
-    "afoundry/": true
-  },
   "typescript.tsdk": "node_modules/typescript/lib"
 }

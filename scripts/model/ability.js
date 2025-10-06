@@ -25,11 +25,6 @@ export class Ability {
         this.text = text;
         this.rulesElements = rulesElements;
     }
-    static fromFlag(flag) {
-        if (!Object.values(AbilityCategory).includes(flag.category)) {
-            throw new Error("");
-        }
-        return new Ability(flag.category, flag.text, flag.rulesElements);
-    }
 }
+//let abil = new mod.api.Ability("Skill Enhancement", "desc", [{"key": "FlatModifier", "selector": "athletics", "value": 1, "type": "item"}])
 //# sourceMappingURL=ability.js.map

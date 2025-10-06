@@ -1,4 +1,4 @@
-//import { EquipmentPF2e, RuleElementSource } from "foundry-pf2e";
+import { RuleElementSource } from "foundry-pf2e";
 
 import { Mold } from "./mold.js";
 import { Lattice } from "./lattice.js";
@@ -7,69 +7,16 @@ import { Ability } from "./ability.js";
 
 
 export class AeonStone {
-    level: number;
-    name: string;
-    text: string;
-    abilitiesRegular: Array<Ability>;
-    abilitiesResonant: Array<Ability>;
-    rulesElementsRegular: Array<string>;
-    rulesElementsResonant: Array<string>;
+    constructor(
+        public level: number,
+        public name: string,
+        public text: string,
+        public rulesElementsRegular: Array<RuleElementSource>,
+        public rulesElementsResonant: Array<RuleElementSource>,
+    ) {}
 
-    mold: Mold;
-    lattice: Lattice;
-    impurities: Array<Impurity>;
-
-    // a lot of duplicate code here, but for now it's fine
-    constructor(mold: Mold, lattice: Lattice, impurities: Array<Impurity>) {
-        this.verifyComponents(mold, lattice, impurities);
-
-        this.mold = mold;
-        this.lattice = lattice;
-        this.impurities = impurities;
-
-        this.level = lattice.level;
-        // to do: improve name
-        this.name = "Tinkered Aeon Stone"
-
-        // to do: substitute values for level scaling
-        const impuritiesRegular = impurities.slice(0, mold.regularAbilities.length);
-        const impuritiesResonant = impurities.slice(mold.regularAbilities.length);
-
-        this.text = "While invested, the Tinkered Aeon Stone grants the following benefits:";
-
-        let abilitiesRegular = new Array<Ability>;
-        for (let i = 0; i < impuritiesRegular.length; i++) {
-            let category = mold.regularAbilities[i];
-            for (let ability of impuritiesRegular[i].abilities) {
-                if (ability.category === category) {
-                    abilitiesRegular.push(ability);
-                    this.text = this.text.concat(`\n\n${ability.text}`);
-                    break;
-                }
-            }
-        }
-        this.abilitiesRegular = abilitiesRegular;
-        this.rulesElementsRegular = abilitiesRegular.flatMap(o => o.rulesElements);
-
-        this.text = this.text.concat("\n\nWhile socketed into a Wayfinder, the Tinkered Aeon Stone also grants the following benefits:");
-
-        let abilitiesResonant = new Array<Ability>;
-        for (let i = 0; i < impuritiesResonant.length; i++) {
-            let category = mold.resonantAbilities[i];
-            for (let ability of impuritiesResonant[i].abilities) {
-                if (ability.category === category) {
-                    abilitiesResonant.push(ability);
-                    this.text = this.text.concat(`\n\n${ability.text}`);
-                    break;
-                }
-            }
-        }
-        this.abilitiesResonant = abilitiesResonant;
-        this.rulesElementsResonant = abilitiesResonant.flatMap(o => o.rulesElements);
-    }
-
-    public verifyComponents(mold: Mold, lattice: Lattice, impurities: Array<Impurity>) : void {
-        // check for level of ingredients
+    public static fromComponents(mold: Mold, lattice: Lattice, impurities: Array<Impurity>): AeonStone {
+       // check for level of ingredients
         if (mold.level > lattice.level) {
             throw new Error("Incorrect level of ingredients. Lattice level must be at least as high as mold level.");
         }
@@ -85,7 +32,7 @@ export class AeonStone {
             throw new Error("Incorrect number of ingredients. " + slots + " slots available, but " + impurities.length + " impurities provided.");
         }
 
-        // check whether impurities match the mold
+        // check whether abilities of impurities match the the ones expected by the mold
         const impuritiesRegular = impurities.slice(0, mold.regularAbilities.length);
         const impuritiesResonant = impurities.slice(mold.regularAbilities.length);
 
@@ -116,5 +63,44 @@ export class AeonStone {
                 throw new Error("Mold resonant ability number " + (i+1) + " requires a " + category + " ability, but resonant impurity " + impuritiesResonant[i].name + " does not supply it.");
             }
         }
+
+        // define easy parameters
+        const level = lattice.level;
+        const name = "Experimental Aeon Stone";
+
+        var text = "<p>While invested, the Experimental Aeon Stone grants the following benefits:</p>"
+
+        // compile abilities
+        // to do: substitute values for level scaling
+        let abilitiesRegular = new Array<Ability>;
+        for (let i = 0; i < impuritiesRegular.length; i++) {
+            let category = mold.regularAbilities[i];
+            for (let ability of impuritiesRegular[i].abilities) {
+                if (ability.category === category) {
+                    abilitiesRegular.push(ability);
+                    // to do: check whether I messed up here and made this wrap multiple <p>
+                    text = text.concat(`<p>${ability.text}</p>`);
+                    break;
+                }
+            }
+        }
+        const rulesElementsRegular = abilitiesRegular.flatMap(o => o.rulesElements);
+
+        text = text.concat("<p>While socketed into a Wayfinder, the Tinkered Aeon Stone also grants the following benefits:</p>");
+
+        let abilitiesResonant = new Array<Ability>;
+        for (let i = 0; i < impuritiesResonant.length; i++) {
+            let category = mold.resonantAbilities[i];
+            for (let ability of impuritiesResonant[i].abilities) {
+                if (ability.category === category) {
+                    abilitiesResonant.push(ability);
+                    text = text.concat(`<p>${ability.text}</p>`);
+                    break;
+                }
+            }
+        }
+        const rulesElementsResonant = abilitiesResonant.flatMap(o => o.rulesElements);
+
+        return new AeonStone(level, name, text, rulesElementsRegular, rulesElementsResonant)
     }
 }

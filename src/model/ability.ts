@@ -1,3 +1,5 @@
+import { RuleElementSource } from "foundry-pf2e";
+
 export enum AbilityCategory {
     lesserSpell = "Lesser Spell",
     lesserInnateEffect = "Lesser Innate Effect",
@@ -16,24 +18,12 @@ export enum AbilityCategory {
     rush = "Rush",
 }
 
-export type RawAbility = {
-    category: string,
-    text: string,
-    rulesElements: Array<string>,
-}
-
 export class Ability {
     constructor(
         public category: AbilityCategory,
         public text: string,
-        public rulesElements: Array<string>,
+        public rulesElements: Array<RuleElementSource>,
     ) {}
-
-    public static fromFlag(flag: {category: string, text: string, rulesElements: Array<string>}): Ability {
-        if (!Object.values(AbilityCategory).includes(flag.category as AbilityCategory)) {
-            throw new Error("");
-        }
-
-        return new Ability(flag.category as AbilityCategory, flag.text, flag.rulesElements);
-    }
 }
+
+//let abil = new mod.api.Ability("Skill Enhancement", "desc", [{"key": "FlatModifier", "selector": "athletics", "value": 1, "type": "item"}])

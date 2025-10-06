@@ -1,14 +1,13 @@
 {
-    "name": "pf2e-aeon-stone-tinkering",
     "title": "Pf2e Aeon Stone Tinkering",
-    "description": "Rules for creating experimental Aeon Stones for use in Pathfinder 2nd Edition.",
+    "description": "Rules and automation for creating Experimental Aeon Stones for use in Pathfinder 2nd Edition.",
     "packs": [
         {
-            "name": "dots-aeon-stone-tinkering-items",
+            "name": "pf2e-aeon-stone-tinkering-items",
             "label": "Pf2e Aeon Stone Tinkering Items",
             "type": "Item",
             "system": "pf2e",
-            "path": "packs/dots-aeon-stone-tinkering-items.db",
+            "path": "packs/pf2e-aeon-stone-tinkering-items.db",
             "ownership": {
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
@@ -16,11 +15,11 @@
             "module": "pf2e-aeon-stone-tinkering"
         },
         {
-            "name": "dots-aeon-stone-tinkering-macros",
-            "label": "Pf2e Aeon Stone Tinkering macros",
+            "name": "pf2e-aeon-stone-tinkering-macros",
+            "label": "Pf2e Aeon Stone Tinkering Macros",
             "type": "Macro",
             "system": "pf2e",
-            "path": "packs/dots-aeon-stone-tinkering-macros.db",
+            "path": "packs/pf2e-aeon-stone-tinkering-macros.db",
             "ownership": {
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
@@ -28,11 +27,11 @@
             "module": "pf2e-aeon-stone-tinkering"
         },
         {
-            "name": "dots-aeon-stone-tinkering-journals",
+            "name": "pf2e-aeon-stone-tinkering-journals",
             "label": "Pf2e Aeon Stone Tinkering Journals",
             "type": "JournalEntry",
             "system": "pf2e",
-            "path": "packs/dots-aeon-stone-tinkering-journals.db",
+            "path": "packs/pf2e-aeon-stone-tinkering-journals.db",
             "ownership": {
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
@@ -49,12 +48,12 @@
             "name": "dotadd"
         }
     ],
-    "scripts": [
-        "src/main.ts"
+    "esmodules": [
+        "scripts/main.js"
     ],
     "compatibility": {
-        "minimum": 13.348,
-        "verified": 13.348
+        "minimum": 13.350,
+        "verified": 13.350
     },
     "relationships": {
         "systems": [
@@ -67,6 +66,33 @@
                 }
             }
         ]
+    },
+    "packFolders": [
+        {
+            "name": "Pf2e Aeon Stone Tinkering",
+            "sorting": "m",
+            "packs": ["pf2e-aeon-stone-tinkering-items, pf2e-aeon-stone-tinkering-macros", "pf2e-aeon-stone-tinkering-journals"]
+        }
+    ],
+    "flags": {
+        "pf2e-aeon-stone-tinkering": {
+            "pf2e-homebrew": {
+                "equipmentTraits": {
+                    "lattice": {
+                        "label": "Lattice",
+                        "description": "<p>The material making up the main bulk of an Experimental Aeon Stone.</p><p>It determines the level of the stone and acts as a limit to the level of all other components.</p>"
+                    },
+                    "mold": {
+                        "label": "Mold",
+                        "description": "<p>The mold that an Experimental Aeon Stone is cast into.</p><p>It determines what kinds of abilities the stone will have. It is not consumed in the tinkering process.</p>"
+                    },
+                    "impurity": {
+                        "label": "Impurity",
+                        "description": "<p>A special ingredient used in crafting an Experimental Aeon Stone.</p><p>It determines the specific abilities imparted on the stone.</p>"
+                    }
+                }
+            }
+        }
     },
     "version": "0.1"
 }

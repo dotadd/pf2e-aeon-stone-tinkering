@@ -1,24 +1,30 @@
 import { EquipmentPF2e } from "foundry-pf2e";
 import { AbilityCategory } from "./ability.js";
-import { ComponentType } from "./componentType.js";
+import { Component } from "./component.js";
 
 
-export class Mold {
+export class Mold extends Component {
     constructor(
-        public level: number,
-        public name: string,
+        level: number,
+        name: string,
+        text: string,
+        price: number,
         public regularAbilities: Array<AbilityCategory>,
         public resonantAbilities: Array<AbilityCategory>,
-    ) {}
+    ) {
+        super(level, name, text, price)
+    }
 
     public static fromItem(item: EquipmentPF2e): Mold {
-        const componentType = item.getFlag("pf2e-aeon-stone-tinkering", "componentType") as ComponentType;
-        if (componentType!= ComponentType.mold) {
-            throw new Error("Incorrect component type for item " + item._id + ". Expected 'Mold', got " + componentType);
+        //@ts-ignore
+        if (!item.traits.has("mold")) {
+            throw new Error("Component type not set via trait. Expected item to have the 'mold' trait.");
         }
 
         const level = item.level;
         const name = item.name;
+        const text = item.description;
+        const price = item.system.price.value.goldValue;
 
         const regularAbilities = item.getFlag("pf2e-aeon-stone-tinkering", "regularAbilities") as Array<AbilityCategory>;
         const resonantAbilities = item.getFlag("pf2e-aeon-stone-tinkering", "resonantAbilities") as Array<AbilityCategory>;
@@ -27,6 +33,59 @@ export class Mold {
             throw new Error("Mold without ability categories.")
         }
 
-        return new Mold(level, name, regularAbilities, resonantAbilities)
+        return new Mold(level, name, text, price, regularAbilities, resonantAbilities)
+    }
+
+    public async toItem(): Promise<void> {
+        await Item.create(
+            {
+                name: this.name,
+                type: "equipment",
+                img: "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp",
+                system: {
+                    description: {
+                        value: this.text
+                    },
+                    level: {
+                        value: this.level
+                    },
+                    bulk: {
+                        heldOrStowed: 0.1,
+                        value: 0.1,
+                        per: 1
+                    },
+                    traits: {
+                        rarity: "uncommon",
+                        value: ["mold"]
+                    },
+                    usage: {
+                        value: "other",
+                        type: "worn"
+                    },
+                    price: {
+                        value: {
+                            pp: 0,
+                            gp: this.price,
+                            sp: 0,
+                            cp: 0
+                        },
+                        per: 1,
+                        sizeSensitive: false
+                    },
+                    publication: {
+                        title: "",
+                        authors: "",
+                        license: "ORC",
+                        remaster: true
+                    }
+                },
+                flags: {
+                    "pf2e-aeon-stone-tinkering": {
+                        regularAbilities: this.regularAbilities,
+                        resonantAbilities: this.resonantAbilities
+                    }
+                }
+            }
+        )
     }
 }
