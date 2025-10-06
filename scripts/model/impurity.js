@@ -1,10 +1,21 @@
 import { Component } from "./component.js";
+import { wrapInParagraph } from "../util.js";
 export class Impurity extends Component {
     abilities;
     constructor(level, name, text, price, abilities) {
         super(level, name, text, price);
         this.abilities = abilities;
-        // to do: assemble text from abilities texts; check for non-empty abilities
+        if (abilities.length < 1) {
+            throw new Error("Impurity without abilities.");
+        }
+        this.abilities = abilities;
+        if (!this.text) {
+            let newText = "";
+            for (let ability of this.abilities) {
+                newText = newText.concat(wrapInParagraph(ability.text));
+            }
+            this.text = newText;
+        }
     }
     static fromItem(item) {
         //@ts-ignore
@@ -34,8 +45,8 @@ export class Impurity extends Component {
                     value: this.level
                 },
                 bulk: {
-                    heldOrStowed: 0.1,
-                    value: 0.1,
+                    heldOrStowed: 0,
+                    value: 0,
                     per: 1
                 },
                 traits: {

@@ -1,6 +1,7 @@
 import { EquipmentPF2e } from "foundry-pf2e";
 import { Ability } from "./ability.js";
 import { Component } from "./component.js";
+import { wrapInParagraph } from "../util.js";
 
 
 export class Impurity extends Component {
@@ -11,8 +12,21 @@ export class Impurity extends Component {
         price: number,
         public abilities: Array<Ability>,
     ) {
-        super(level, name, text, price)
-        // to do: assemble text from abilities texts; check for non-empty abilities
+        super(level, name, text, price);
+
+        if (abilities.length < 1) {
+            throw new Error("Impurity without abilities.");
+        }
+
+        this.abilities = abilities;
+
+        if (!this.text) {
+            let newText = ""
+            for (let ability of this.abilities) {
+                newText = newText.concat(wrapInParagraph(ability.text));
+            }
+            this.text = newText;
+        }
     }
 
     public static fromItem(item: EquipmentPF2e): Impurity {
@@ -49,8 +63,8 @@ export class Impurity extends Component {
                         value: this.level
                     },
                     bulk: {
-                        heldOrStowed: 0.1,
-                        value: 0.1,
+                        heldOrStowed: 0,
+                        value: 0,
                         per: 1
                     },
                     traits: {

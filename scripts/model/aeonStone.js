@@ -1,13 +1,17 @@
+import { wrapInParagraph } from "../util.js";
+import { aeonStonePrice } from "../data.js";
 export class AeonStone {
     level;
     name;
     text;
+    price;
     rulesElementsRegular;
     rulesElementsResonant;
-    constructor(level, name, text, rulesElementsRegular, rulesElementsResonant) {
+    constructor(level, name, text, price, rulesElementsRegular, rulesElementsResonant) {
         this.level = level;
         this.name = name;
         this.text = text;
+        this.price = price;
         this.rulesElementsRegular = rulesElementsRegular;
         this.rulesElementsResonant = rulesElementsResonant;
     }
@@ -16,7 +20,7 @@ export class AeonStone {
         if (mold.level > lattice.level) {
             throw new Error("Incorrect level of ingredients. Lattice level must be at least as high as mold level.");
         }
-        for (var impurity of impurities) {
+        for (let impurity of impurities) {
             if (impurity.level > lattice.level) {
                 throw new Error("Incorrect level of ingredients. Lattice level must be at least as high as each impurity level.");
             }
@@ -58,7 +62,7 @@ export class AeonStone {
         // define easy parameters
         const level = lattice.level;
         const name = "Experimental Aeon Stone";
-        var text = "<p>While invested, the Experimental Aeon Stone grants the following benefits:</p>";
+        let text = "<p>While invested, the Experimental Aeon Stone grants the following benefits:</p>";
         // compile abilities
         // to do: substitute values for level scaling
         let abilitiesRegular = new Array;
@@ -67,27 +71,80 @@ export class AeonStone {
             for (let ability of impuritiesRegular[i].abilities) {
                 if (ability.category === category) {
                     abilitiesRegular.push(ability);
-                    // to do: check whether I messed up here and made this wrap multiple <p>
-                    text = text.concat(`<p>${ability.text}</p>`);
+                    text = text.concat(wrapInParagraph(ability.text));
                     break;
                 }
             }
         }
         const rulesElementsRegular = abilitiesRegular.flatMap(o => o.rulesElements);
-        text = text.concat("<p>While socketed into a Wayfinder, the Tinkered Aeon Stone also grants the following benefits:</p>");
+        text = text.concat("<p>While socketed into a Wayfinder, the Experimental Aeon Stone also grants the following benefits:</p>");
+        // to do: add rollOption and predicate for resonant abilities
         let abilitiesResonant = new Array;
         for (let i = 0; i < impuritiesResonant.length; i++) {
             let category = mold.resonantAbilities[i];
             for (let ability of impuritiesResonant[i].abilities) {
                 if (ability.category === category) {
                     abilitiesResonant.push(ability);
-                    text = text.concat(`<p>${ability.text}</p>`);
+                    text = text.concat(wrapInParagraph(ability.text));
                     break;
                 }
             }
         }
         const rulesElementsResonant = abilitiesResonant.flatMap(o => o.rulesElements);
-        return new AeonStone(level, name, text, rulesElementsRegular, rulesElementsResonant);
+        // get price
+        const price = aeonStonePrice[level - 1];
+        if (!price) {
+            throw new Error("Could not get Aeon Stone price. Level out of expected range: " + level);
+        }
+        return new AeonStone(level, name, text, price, rulesElementsRegular, rulesElementsResonant);
+    }
+    async toItem() {
+        await Item.create({
+            name: this.name,
+            type: "equipment",
+            img: "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp",
+            system: {
+                description: {
+                    value: this.text
+                },
+                level: {
+                    value: this.level
+                },
+                bulk: {
+                    heldOrStowed: 0.1,
+                    value: 0.1,
+                    per: 1
+                },
+                traits: {
+                    rarity: "uncommon",
+                    value: ["invested", "magical"]
+                },
+                usage: {
+                    value: "worn",
+                    type: "worn"
+                },
+                price: {
+                    value: {
+                        pp: 0,
+                        gp: this.price,
+                        sp: 0,
+                        cp: 0
+                    },
+                    per: 1,
+                    sizeSensitive: false
+                },
+                // to do: add resonant abilities
+                rules: [
+                    this.rulesElementsRegular,
+                ],
+                publication: {
+                    title: "",
+                    authors: "",
+                    license: "ORC",
+                    remaster: true
+                }
+            }
+        });
     }
 }
 //# sourceMappingURL=aeonStone.js.map
