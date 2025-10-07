@@ -1,5 +1,5 @@
-import { wrapInParagraph } from "../util.js";
-import { aeonStonePrice } from "../data.js";
+import { AbilityCategory } from "./ability.js";
+import { aeonStonePrice, itemBonusByLevel, itemDcByLevel } from "../data.js";
 export class AeonStone {
     level;
     name;
@@ -14,6 +14,40 @@ export class AeonStone {
         this.price = price;
         this.rulesElementsRegular = rulesElementsRegular;
         this.rulesElementsResonant = rulesElementsResonant;
+    }
+    static scaleAbility(ability, level) {
+        const dc = itemDcByLevel[level - 1];
+        const itemBonus = itemBonusByLevel[level - 1];
+        // fully account for item bonuses (to skills, because that's the only kind used)
+        if (ability.category === AbilityCategory.skillEnhancement) {
+            ability.text = ability.text.replace(new RegExp("\+[0-9] item bonus"), `+${itemBonus} item bonus`);
+            for (let i = 0; i < ability.rulesElements.length; i++) {
+                if (ability.rulesElements[i].key === "FlatModifier") {
+                    //@ts-ignore
+                    ability.rulesElements[i].value = itemBonus;
+                }
+            }
+        }
+        // substitute any DCs in plain text and in @Check syntax
+        ability.text = ability.text.replace(new RegExp("DC [0-9]*"), "DC " + dc);
+        ability.text = ability.text.replace(new RegExp("(@Check\[.*?)(dc:[0-9]*)(.*?\])"), "$1" + "dc:" + dc + "$3");
+        return ability;
+    }
+    static formatAeonStoneText(abilitiesRegular, abilitiesResonant) {
+        const header = "<p>An Experimental Aeon Stone, created from raw components. You must invest it in order to gain its benefits and you may not invest more than one Experimental Aeon Stone each day.</p>";
+        let subHeaderRegular = "</hr><p>While invested, the Experimental Aeon Stone grants the following benefits:</p>";
+        let abilityTextsRegular = [];
+        for (let ability of abilitiesRegular) {
+            let abilityText = `<p><strong>${ability.category}</strong> ${ability.text}</p>`;
+            abilityTextsRegular.push(abilityText);
+        }
+        let subHeaderResonant = "</hr><p>While invested and placed in a Wayfinder, the Experimental Aeon Stone grants the following benefits:</p>";
+        let abilityTextsResonant = [];
+        for (let ability of abilitiesResonant) {
+            let abilityText = `<p><strong>${ability.category}</strong> ${ability.text}</p>`;
+            abilityTextsResonant.push(abilityText);
+        }
+        return header + subHeaderRegular + abilityTextsRegular.join("") + subHeaderResonant + abilityTextsResonant.join("");
     }
     static fromComponents(mold, lattice, impurities) {
         // check for level of ingredients
@@ -59,33 +93,27 @@ export class AeonStone {
                 throw new Error("Mold resonant ability number " + (i + 1) + " requires a " + category + " ability, but resonant impurity " + impuritiesResonant[i].name + " does not supply it.");
             }
         }
-        // define easy parameters
+        // set easy parameters
         const level = lattice.level;
         const name = "Experimental Aeon Stone";
-        let text = "<p>While invested, the Experimental Aeon Stone grants the following benefits:</p>";
         // compile abilities
-        // to do: substitute values for level scaling
         let abilitiesRegular = new Array;
         for (let i = 0; i < impuritiesRegular.length; i++) {
             let category = mold.regularAbilities[i];
             for (let ability of impuritiesRegular[i].abilities) {
                 if (ability.category === category) {
-                    abilitiesRegular.push(ability);
-                    text = text.concat(wrapInParagraph(ability.text));
+                    abilitiesRegular.push(AeonStone.scaleAbility(ability, level));
                     break;
                 }
             }
         }
         const rulesElementsRegular = abilitiesRegular.flatMap(o => o.rulesElements);
-        text = text.concat("<p>While socketed into a Wayfinder, the Experimental Aeon Stone also grants the following benefits:</p>");
-        // to do: add rollOption and predicate for resonant abilities
         let abilitiesResonant = new Array;
         for (let i = 0; i < impuritiesResonant.length; i++) {
             let category = mold.resonantAbilities[i];
             for (let ability of impuritiesResonant[i].abilities) {
                 if (ability.category === category) {
-                    abilitiesResonant.push(ability);
-                    text = text.concat(wrapInParagraph(ability.text));
+                    abilitiesResonant.push(AeonStone.scaleAbility(ability, level));
                     break;
                 }
             }
@@ -96,6 +124,8 @@ export class AeonStone {
         if (!price) {
             throw new Error("Could not get Aeon Stone price. Level out of expected range: " + level);
         }
+        // get text
+        const text = AeonStone.formatAeonStoneText(abilitiesRegular, abilitiesResonant);
         return new AeonStone(level, name, text, price, rulesElementsRegular, rulesElementsResonant);
     }
     async toItem() {
@@ -120,6 +150,7 @@ export class AeonStone {
         await Item.create({
             name: this.name,
             type: "equipment",
+            // to do: use random image from list
             img: "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp",
             system: {
                 description: {

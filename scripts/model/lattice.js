@@ -1,5 +1,31 @@
-import { Component } from "./component.js";
-export class Lattice extends Component {
+import { itemBonusByLevel, itemDcByLevel, latticePrice } from "../data";
+export class Lattice {
+    level;
+    name;
+    text;
+    price;
+    constructor(level, name, text, price) {
+        this.level = level;
+        this.name = name;
+        this.text = text;
+        this.price = price;
+    }
+    static formatLatticeText(level, name) {
+        const spellRank = Math.ceil(level / 2);
+        const dc = itemDcByLevel[level - 1];
+        const itemBonus = itemBonusByLevel[level - 1];
+        if (!dc || !itemBonus) {
+            throw new Error("Lattice level outside of expected range: " + level);
+        }
+        return `<p>When used as a component in Aeon Stone Tinkering, ${name} allows for the use of other components with a maximum level of ${level}</p>` +
+            `<p>The resulting Experimental Aeon Stone will have a level of ${level}. Any non-cantrip spells will be heightened to rank ${spellRank}. ` +
+            `Any item bonuses granted will be +${itemBonus}. Any save DCs will be ${dc}.</p>`;
+    }
+    static fromDefaults(level, name) {
+        const text = this.formatLatticeText(level, name);
+        const price = latticePrice[level - 1];
+        return new Lattice(level, name, text, price);
+    }
     static fromItem(item) {
         //@ts-ignore
         if (!item.traits.has("lattice")) {

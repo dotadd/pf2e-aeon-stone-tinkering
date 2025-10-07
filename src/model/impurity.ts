@@ -1,32 +1,38 @@
 import { EquipmentPF2e } from "foundry-pf2e";
 import { Ability } from "./ability.js";
-import { Component } from "./component.js";
-import { wrapInParagraph } from "../util.js";
+import { impurityPrice } from "../data.js";
 
 
-export class Impurity extends Component {
+export class Impurity {
     constructor (
-        level: number,
-        name: string,
-        text: string,
-        price: number,
+        public level: number,
+        public name: string,
+        public text: string,
+        public price: number,
         public abilities: Array<Ability>,
     ) {
-        super(level, name, text, price);
-
         if (abilities.length < 1) {
             throw new Error("Impurity without abilities.");
         }
+    }
 
-        this.abilities = abilities;
-
-        if (!this.text) {
-            let newText = ""
-            for (let ability of this.abilities) {
-                newText = newText.concat(wrapInParagraph(ability.text));
-            }
-            this.text = newText;
+    public static formatImpurityText(name: string, abilities: Array<Ability>): string {
+        const header = `<p>When used as a component in Aeon Stone Tinkering, ${name} can grant the following abilities to the resulting Experimental Aeon Stone.</p>`;
+        
+        let abilityTexts: Array<string> = [];
+        for (let ability of abilities) {
+            let abilityText = `<p><strong>${ability.category}</strong> ${ability.text}</p>`;
+            abilityTexts.push(abilityText);
         }
+
+        return header.concat(abilityTexts.join(""));
+    }
+
+    public static fromDefaults(level: number, name: string, abilities: Array<Ability>): Impurity {
+        const text = Impurity.formatImpurityText(name, abilities);
+        const price = impurityPrice[level-1]
+
+        return new Impurity(level, name, text, price, abilities)
     }
 
     public static fromItem(item: EquipmentPF2e): Impurity {
@@ -41,10 +47,6 @@ export class Impurity extends Component {
         const price = item.system.price.value.goldValue;
 
         const abilities = item.getFlag("pf2e-aeon-stone-tinkering", "abilities") as Array<Ability>;
-        
-        if (abilities.length < 1) {
-            throw new Error("Impurity without abilities.")
-        }
 
         return new Impurity(level, name, text, price, abilities)
     }

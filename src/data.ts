@@ -46,6 +46,56 @@ export const latticePrice = [
     52000,
 ]
 
+
+// equivalent to about a third of the bottom end price of consumables as per https://2e.aonprd.com/Rules.aspx?ID=2950
+export const impurityPrice = [
+    1,
+    2,
+    3,
+    4,
+    7,
+    10,
+    17,
+    24,
+    34,
+    50,
+    67,
+    100,
+    134,
+    200,
+    300,
+    434,
+    676,
+    1000,
+    1667,
+    2667,
+]
+
+
+// equivalent to the top end price of consumables as per https://2e.aonprd.com/Rules.aspx?ID=2950
+export const moldPrice = [
+    4,
+    7,
+    12,
+    20,
+    30,
+    50,
+    70,
+    100,
+    150,
+    200,
+    300,
+    400,
+    600,
+    900,
+    1300,
+    2000,
+    3000,
+    5000,
+    8000,
+    14000,
+]
+
 // equivalent to hard level-based DCs as per https://2e.aonprd.com/Rules.aspx?ID=2629
 export const itemDcByLevel = [
     17,

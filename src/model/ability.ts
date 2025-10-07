@@ -25,5 +25,3 @@ export class Ability {
         public rulesElements: Array<RuleElementSource>,
     ) {}
 }
-
-//let abil = new mod.api.Ability("Skill Enhancement", "desc", [{"key": "FlatModifier", "selector": "athletics", "value": 1, "type": "item"}])

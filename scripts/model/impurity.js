@@ -1,21 +1,33 @@
-import { Component } from "./component.js";
-import { wrapInParagraph } from "../util.js";
-export class Impurity extends Component {
+import { impurityPrice } from "../data.js";
+export class Impurity {
+    level;
+    name;
+    text;
+    price;
     abilities;
     constructor(level, name, text, price, abilities) {
-        super(level, name, text, price);
+        this.level = level;
+        this.name = name;
+        this.text = text;
+        this.price = price;
         this.abilities = abilities;
         if (abilities.length < 1) {
             throw new Error("Impurity without abilities.");
         }
-        this.abilities = abilities;
-        if (!this.text) {
-            let newText = "";
-            for (let ability of this.abilities) {
-                newText = newText.concat(wrapInParagraph(ability.text));
-            }
-            this.text = newText;
+    }
+    static formatImpurityText(name, abilities) {
+        const header = `<p>When used as a component in Aeon Stone Tinkering, ${name} can grant the following abilities to the resulting Experimental Aeon Stone.</p>`;
+        let abilityTexts = [];
+        for (let ability of abilities) {
+            let abilityText = `<p><strong>${ability.category}</strong> ${ability.text}</p>`;
+            abilityTexts.push(abilityText);
         }
+        return header.concat(abilityTexts.join(""));
+    }
+    static fromDefaults(level, name, abilities) {
+        const text = Impurity.formatImpurityText(name, abilities);
+        const price = impurityPrice[level - 1];
+        return new Impurity(level, name, text, price, abilities);
     }
     static fromItem(item) {
         //@ts-ignore
@@ -27,9 +39,6 @@ export class Impurity extends Component {
         const text = item.description;
         const price = item.system.price.value.goldValue;
         const abilities = item.getFlag("pf2e-aeon-stone-tinkering", "abilities");
-        if (abilities.length < 1) {
-            throw new Error("Impurity without abilities.");
-        }
         return new Impurity(level, name, text, price, abilities);
     }
     async toItem() {

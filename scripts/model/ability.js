@@ -26,5 +26,4 @@ export class Ability {
         this.rulesElements = rulesElements;
     }
 }
-//let abil = new mod.api.Ability("Skill Enhancement", "desc", [{"key": "FlatModifier", "selector": "athletics", "value": 1, "type": "item"}])
 //# sourceMappingURL=ability.js.map
