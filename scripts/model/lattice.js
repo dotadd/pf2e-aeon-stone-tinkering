@@ -1,4 +1,4 @@
-import { itemBonusByLevel, itemDcByLevel, latticePrice } from "../data";
+import { itemBonusByLevel, itemDcByLevel, latticePrice } from "../data/numberTables.js";
 export class Lattice {
     level;
     name;
@@ -41,7 +41,7 @@ export class Lattice {
         await Item.create({
             name: this.name,
             type: "equipment",
-            img: "systems/pf2e/icons/equipment/worn-items/other-worn-items/taletellers-ring.webp",
+            img: "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp",
             system: {
                 description: {
                     value: this.text

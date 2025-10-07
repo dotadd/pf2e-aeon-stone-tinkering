@@ -1,5 +1,5 @@
 import { EquipmentPF2e } from "foundry-pf2e";
-import { itemBonusByLevel, itemDcByLevel, latticePrice } from "../data";
+import { itemBonusByLevel, itemDcByLevel, latticePrice } from "../data/numberTables.js";
 
 export class Lattice {
 
@@ -50,7 +50,7 @@ export class Lattice {
             {
                 name: this.name,
                 type: "equipment",
-                img: "systems/pf2e/icons/equipment/worn-items/other-worn-items/taletellers-ring.webp",
+                img: "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp",
                 system: {
                     description: {
                         value: this.text

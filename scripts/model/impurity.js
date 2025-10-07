@@ -1,4 +1,4 @@
-import { impurityPrice } from "../data.js";
+import { impurityPrice } from "../data/numberTables.js";
 export class Impurity {
     level;
     name;

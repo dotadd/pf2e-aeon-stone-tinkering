@@ -1,6 +1,6 @@
 import { EquipmentPF2e } from "foundry-pf2e";
 import { Ability } from "./ability.js";
-import { impurityPrice } from "../data.js";
+import { impurityPrice } from "../data/numberTables.js";
 
 
 export class Impurity {

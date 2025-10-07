@@ -4,7 +4,7 @@ import { Mold } from "./mold.js";
 import { Lattice } from "./lattice.js";
 import { Impurity } from "./impurity.js";
 import { Ability, AbilityCategory } from "./ability.js";
-import { aeonStonePrice, itemBonusByLevel, itemDcByLevel } from "../data.js";
+import { aeonStonePrice, itemBonusByLevel, itemDcByLevel } from "../data/numberTables.js";
 
 
 export class AeonStone {
@@ -23,7 +23,7 @@ export class AeonStone {
 
         // fully account for item bonuses (to skills, because that's the only kind used)
         if (ability.category === AbilityCategory.skillEnhancement) {
-            ability.text = ability.text.replace(new RegExp("\+[0-9] item bonus"), `+${itemBonus} item bonus`);
+            ability.text = ability.text.replace(/\+[0-9] item bonus/, `+${itemBonus} item bonus`);
             for (let i = 0; i < ability.rulesElements.length; i++) {
                 if (ability.rulesElements[i].key === "FlatModifier") {
                     //@ts-ignore
@@ -42,7 +42,7 @@ export class AeonStone {
     public static formatAeonStoneText(abilitiesRegular: Array<Ability>, abilitiesResonant: Array<Ability>): string {
         const header = "<p>An Experimental Aeon Stone, created from raw components. You must invest it in order to gain its benefits and you may not invest more than one Experimental Aeon Stone each day.</p>";
         
-        let subHeaderRegular = "</hr><p>While invested, the Experimental Aeon Stone grants the following benefits:</p>";
+        let subHeaderRegular = "<hr><p>While invested, the Experimental Aeon Stone grants the following benefits:</p>";
         
         let abilityTextsRegular: Array<string> = [];
         for (let ability of abilitiesRegular) {
@@ -50,7 +50,7 @@ export class AeonStone {
             abilityTextsRegular.push(abilityText);
         }
 
-        let subHeaderResonant = "</hr><p>While invested and placed in a Wayfinder, the Experimental Aeon Stone grants the following benefits:</p>";
+        let subHeaderResonant = "<hr><p>While invested and placed in a Wayfinder, the Experimental Aeon Stone grants the following benefits:</p>";
         
         let abilityTextsResonant: Array<string> = [];
         for (let ability of abilitiesResonant) {

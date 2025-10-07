@@ -136,4 +136,4 @@ export const itemBonusByLevel = [
     3,
     3,
 ];
-//# sourceMappingURL=data.js.map
+//# sourceMappingURL=numberTables.js.map
