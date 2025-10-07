@@ -136,4 +136,27 @@ export const itemBonusByLevel = [
     3,
     3,
 ];
+// based on monster resistances https://2e.aonprd.com/Rules.aspx?ID=2893
+export const resistanceByLevel = [
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    19,
+    20,
+    21,
+    22,
+];
 //# sourceMappingURL=numberTables.js.map

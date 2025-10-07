@@ -4,7 +4,7 @@ import { Mold } from "./mold.js";
 import { Lattice } from "./lattice.js";
 import { Impurity } from "./impurity.js";
 import { Ability, AbilityCategory } from "./ability.js";
-import { aeonStonePrice, itemBonusByLevel, itemDcByLevel } from "../data/numberTables.js";
+import { aeonStonePrice, itemBonusByLevel, itemDcByLevel, resistanceByLevel } from "../data/numberTables.js";
 
 
 export class AeonStone {
@@ -20,6 +20,7 @@ export class AeonStone {
     public static scaleAbility(ability: Ability, level: number): Ability {
         const dc = itemDcByLevel[level-1];
         const itemBonus = itemBonusByLevel[level-1];
+        const resistance = resistanceByLevel[level-1];
 
         // fully account for item bonuses (to skills, because that's the only kind used)
         if (ability.category === AbilityCategory.skillEnhancement) {
@@ -28,6 +29,17 @@ export class AeonStone {
                 if (ability.rulesElements[i].key === "FlatModifier") {
                     //@ts-ignore
                     ability.rulesElements[i].value = itemBonus;
+                }
+            }
+        }
+
+        // fully account for resistances
+        if (ability.category === AbilityCategory.resistance) {
+            ability.text = ability.text.replace(/resistance [0-9]* to/, `resistance ${resistance} to`);
+            for (let i = 0; i < ability.rulesElements.length; i++) {
+                if (ability.rulesElements[i].key === "Resistance") {
+                    //@ts-ignore
+                    ability.rulesElements[i].value = resistance;
                 }
             }
         }

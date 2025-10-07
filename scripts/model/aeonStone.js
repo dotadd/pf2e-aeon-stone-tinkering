@@ -1,5 +1,5 @@
 import { AbilityCategory } from "./ability.js";
-import { aeonStonePrice, itemBonusByLevel, itemDcByLevel } from "../data/numberTables.js";
+import { aeonStonePrice, itemBonusByLevel, itemDcByLevel, resistanceByLevel } from "../data/numberTables.js";
 export class AeonStone {
     level;
     name;
@@ -18,6 +18,7 @@ export class AeonStone {
     static scaleAbility(ability, level) {
         const dc = itemDcByLevel[level - 1];
         const itemBonus = itemBonusByLevel[level - 1];
+        const resistance = resistanceByLevel[level - 1];
         // fully account for item bonuses (to skills, because that's the only kind used)
         if (ability.category === AbilityCategory.skillEnhancement) {
             ability.text = ability.text.replace(/\+[0-9] item bonus/, `+${itemBonus} item bonus`);
@@ -25,6 +26,16 @@ export class AeonStone {
                 if (ability.rulesElements[i].key === "FlatModifier") {
                     //@ts-ignore
                     ability.rulesElements[i].value = itemBonus;
+                }
+            }
+        }
+        // fully account for resistances
+        if (ability.category === AbilityCategory.resistance) {
+            ability.text = ability.text.replace(/resistance [0-9]* to/, `resistance ${resistance} to`);
+            for (let i = 0; i < ability.rulesElements.length; i++) {
+                if (ability.rulesElements[i].key === "Resistance") {
+                    //@ts-ignore
+                    ability.rulesElements[i].value = resistance;
                 }
             }
         }

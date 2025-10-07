@@ -8,6 +8,7 @@
     "typescript": "^5.9.2"
   },
   "devDependencies": {
-    "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#main"
+    "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#main",
+    "@foundryvtt/foundryvtt-cli": "3.0.0"
   }
 }

@@ -3,7 +3,6 @@ import { AeonStone } from "./model/aeonStone.js";
 import { Impurity } from "./model/impurity.js";
 import { Lattice } from "./model/lattice.js";
 import { Mold } from "./model/mold.js";
-import { aeonStonePrice, latticePrice, moldPrice, impurityPrice, itemBonusByLevel, itemDcByLevel } from "./data/numberTables.js";
 
 
 declare module "fvtt-types/configuration" {
@@ -16,12 +15,6 @@ declare module "fvtt-types/configuration" {
         Impurity: typeof Impurity,
         Lattice: typeof Lattice,
         Mold: typeof Mold,
-        aeonStonePrice: typeof aeonStonePrice,
-        latticePrice: typeof latticePrice,
-        moldPrice: typeof moldPrice,
-        impurityPrice: typeof impurityPrice,
-        itemBonusByLevel: typeof itemBonusByLevel,
-        itemDcByLevel: typeof itemDcByLevel,
       }
     }
   }
@@ -40,11 +33,5 @@ Hooks.once("init", ()=> {
     Impurity,
     Lattice,
     Mold,
-    aeonStonePrice,
-    latticePrice,
-    moldPrice,
-    impurityPrice,
-    itemBonusByLevel,
-    itemDcByLevel,
   }
 });

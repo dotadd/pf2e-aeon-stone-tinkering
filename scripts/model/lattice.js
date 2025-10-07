@@ -72,6 +72,19 @@ export class Lattice {
                     per: 1,
                     sizeSensitive: false
                 },
+                identification: {
+                    status: "identified",
+                    unidentified: {
+                        name: "Unidentified Component",
+                        img: "systems/pf2e/icons/unidentified_item_icons/adventuring_gear.webp",
+                        data: {
+                            description: {
+                                "value": ""
+                            }
+                        }
+                    },
+                    "misidentified": {}
+                },
                 publication: {
                     title: "",
                     authors: "",

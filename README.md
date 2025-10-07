@@ -1,6 +1,6 @@
 # PF2e Aeon Stone Tinkering
 
-
+node ./node_modules/@foundryvtt/foundryvtt-cli/fvtt.mjs package pack -n "pf2e-aeon-stone-tinkering-items" --in ./data
 
 ## How To
 
@@ -22,10 +22,11 @@ They are based on the following Licensed Material:
 - Pathfinder Second Edition Player Core © Paizo Inc 2023
 - Pathfinder Second Edition GM Core © Paizo Inc 2023
 - Pathfinder Second Edition Player Core 2 © Paizo Inc 2024
+- Pathfinder Second Edition Guns and Gears Remastered © Paizo Inc 2025
+- Pathfinder Second Edition Battlecry! © Paizo Inc 2025
 
 
 - Pathfinder Second Edition War of Immortals © Paizo Inc 2024
-- Pathfinder Second Edition Guns and Gears Remastered © Paizo Inc 2025
 - Pathfinder Second Edition Treasure Vault Remastered © Paizo Inc 2025
 
 ### Expressly Designated Licensed Material

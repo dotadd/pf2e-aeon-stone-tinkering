@@ -3,7 +3,6 @@ import { AeonStone } from "./model/aeonStone.js";
 import { Impurity } from "./model/impurity.js";
 import { Lattice } from "./model/lattice.js";
 import { Mold } from "./model/mold.js";
-import { aeonStonePrice, latticePrice, moldPrice, impurityPrice, itemBonusByLevel, itemDcByLevel } from "./data/numberTables.js";
 Hooks.once("init", () => {
     const mod = game.modules.get("pf2e-aeon-stone-tinkering");
     //@ts-ignore
@@ -14,12 +13,6 @@ Hooks.once("init", () => {
         Impurity,
         Lattice,
         Mold,
-        aeonStonePrice,
-        latticePrice,
-        moldPrice,
-        impurityPrice,
-        itemBonusByLevel,
-        itemDcByLevel,
     };
 });
 //# sourceMappingURL=main.js.map
