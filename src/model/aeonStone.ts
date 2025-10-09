@@ -182,7 +182,11 @@ export class AeonStone {
 
         for (let re of rulesElementsResonant) {
             re.requiresInvestment = true;
-            re.predicate = ["experimental-aeon-stone-in-wayfinder"];
+            if (Array.isArray(re.predicate)) {
+                re.predicate.push("experimental-aeon-stone-in-wayfinder");
+            } else {
+                re.predicate = ["experimental-aeon-stone-in-wayfinder"];
+            }
         }
 
         let rulesElementsTotal = rulesElementsRegular.concat(rulesElementsResonant);
