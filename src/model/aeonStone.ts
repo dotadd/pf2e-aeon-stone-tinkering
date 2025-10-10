@@ -4,7 +4,7 @@ import { Mold } from "./mold.js";
 import { Lattice } from "./lattice.js";
 import { Impurity } from "./impurity.js";
 import { Ability, AbilityCategory } from "./ability.js";
-import { aeonStonePrice, itemBonusByLevel, itemDcByLevel, resistanceByLevel } from "../data/numberTables.js";
+import { aeonStonePrice, itemBonusByLevel, itemDcByLevel, resistanceByLevel } from "../data/data.js";
 
 
 export class AeonStone {
@@ -15,6 +15,7 @@ export class AeonStone {
         public price: number,
         public rulesElementsRegular: Array<RuleElementSource>,
         public rulesElementsResonant: Array<RuleElementSource>,
+        public imgPath: string,
     ) {}
 
     public static scaleAbility(ability: Ability, level: number): Ability {
@@ -45,8 +46,8 @@ export class AeonStone {
         }
 
         // substitute any DCs in plain text and in @Check syntax
-        ability.text = ability.text.replace(new RegExp("DC [0-9]*"), "DC " + dc);
-        ability.text = ability.text.replace(new RegExp("(@Check\[.*?)(dc:[0-9]*)(.*?\])"), "$1" + "dc:" + dc + "$3");
+        ability.text = ability.text.replace(/DC [0-9]*/, "DC " + dc);
+        ability.text = ability.text.replace(/(@Check\[.*?)(dc:[0-9]*)(.*?\])/, "$1" + "dc:" + dc + "$3");
 
         return ability;
     }
@@ -55,20 +56,10 @@ export class AeonStone {
         const header = "<p>An Experimental Aeon Stone, created from raw components. You must invest it in order to gain its benefits and you may not invest more than one Experimental Aeon Stone each day.</p>";
         
         let subHeaderRegular = "<hr><p>While invested, the Experimental Aeon Stone grants the following benefits:</p>";
-        
-        let abilityTextsRegular: Array<string> = [];
-        for (let ability of abilitiesRegular) {
-            let abilityText = `<p><strong>${ability.category}</strong> ${ability.text}</p>`;
-            abilityTextsRegular.push(abilityText);
-        }
+        const abilityTextsRegular: Array<string> = abilitiesRegular.map(ability => ability.formatAbilityText());
 
         let subHeaderResonant = "<hr><p>While invested and placed in a Wayfinder, the Experimental Aeon Stone grants the following benefits:</p>";
-        
-        let abilityTextsResonant: Array<string> = [];
-        for (let ability of abilitiesResonant) {
-            let abilityText = `<p><strong>${ability.category}</strong> ${ability.text}</p>`;
-            abilityTextsResonant.push(abilityText);
-        }
+        const abilityTextsResonant: Array<string> = abilitiesResonant.map(ability => ability.formatAbilityText());
 
         return header + subHeaderRegular + abilityTextsRegular.join("") + subHeaderResonant + abilityTextsResonant.join("");
     }
@@ -122,9 +113,13 @@ export class AeonStone {
             }
         }
 
-        // set easy parameters
+        // set level
         const level = lattice.level;
-        const name = "Experimental Aeon Stone";
+
+        // generate name
+        const shape = `${mold.shape.charAt(0).toUpperCase()}${mold.shape.slice(1)}`;
+        const color = `${lattice.color.charAt(0).toUpperCase()}${lattice.color.slice(1)}`;
+        const name = `Experimental Aeon Stone (${color} ${shape})`;
 
         // compile abilities
         let abilitiesRegular = new Array<Ability>;
@@ -132,7 +127,7 @@ export class AeonStone {
             let category = mold.regularAbilities[i];
             for (let ability of impuritiesRegular[i].abilities) {
                 if (ability.category === category) {
-                    abilitiesRegular.push(AeonStone.scaleAbility(ability, level));
+                    abilitiesRegular.push(ability.scale(level));
                     break;
                 }
             }
@@ -144,7 +139,7 @@ export class AeonStone {
             let category = mold.resonantAbilities[i];
             for (let ability of impuritiesResonant[i].abilities) {
                 if (ability.category === category) {
-                    abilitiesResonant.push(AeonStone.scaleAbility(ability, level));
+                    abilitiesResonant.push(ability.scale(level));
                     break;
                 }
             }
@@ -161,10 +156,22 @@ export class AeonStone {
         // get text
         const text = AeonStone.formatAeonStoneText(abilitiesRegular, abilitiesResonant);
 
-        return new AeonStone(level, name, text, price, rulesElementsRegular, rulesElementsResonant);
+        // get image (static for now)
+        const imgPath = "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp";
+
+        return new AeonStone(level, name, text, price, rulesElementsRegular, rulesElementsResonant, imgPath);
     }
 
-    public async toItem(): Promise<void> {
+    public async toItem(compendiumId?: string, folderId?: string, actorId?: string): Promise<void> {
+        // handle nonsense cases
+        if (folderId && actorId) {
+            throw new Error("Cannot create item both in folder and on actor.");
+        }
+        if (compendiumId && actorId) {
+            throw new Error("Cannot create item both in compendium and on actor.");
+        }
+
+        // configure rules elements
         const rollOptionRulesElement: RuleElementSource = {
             key: "RollOption",
             //@ts-ignore
@@ -192,51 +199,59 @@ export class AeonStone {
         let rulesElementsTotal = rulesElementsRegular.concat(rulesElementsResonant);
         rulesElementsTotal.push(rollOptionRulesElement);
 
-        await Item.create(
-            {
-                name: this.name,
-                type: "equipment",
-                // to do: use random image from list
-                img: "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp",
-                system: {
-                    description: {
-                        value: this.text
+        // create
+        const createData = {
+            name: this.name,
+            type: "equipment",
+            img: this.imgPath,
+            system: {
+                description: {
+                    value: this.text
+                },
+                level: {
+                    value: this.level
+                },
+                bulk: {
+                    heldOrStowed: 0.1,
+                    value: 0.1,
+                    per: 1
+                },
+                traits: {
+                    rarity: "uncommon",
+                    value: ["invested", "magical"]
+                },
+                usage: {
+                    value: "worn",
+                    type: "worn"
+                },
+                price: {
+                    value: {
+                        pp: 0,
+                        gp: this.price,
+                        sp: 0,
+                        cp: 0
                     },
-                    level: {
-                        value: this.level
-                    },
-                    bulk: {
-                        heldOrStowed: 0.1,
-                        value: 0.1,
-                        per: 1
-                    },
-                    traits: {
-                        rarity: "uncommon",
-                        value: ["invested", "magical"]
-                    },
-                    usage: {
-                        value: "worn",
-                        type: "worn"
-                    },
-                    price: {
-                        value: {
-                            pp: 0,
-                            gp: this.price,
-                            sp: 0,
-                            cp: 0
-                        },
-                        per: 1,
-                        sizeSensitive: false
-                    },
-                    rules: rulesElementsTotal,
-                    publication: {
-                        title: "",
-                        authors: "",
-                        license: "ORC",
-                        remaster: true
-                    }
+                    per: 1,
+                    sizeSensitive: false
+                },
+                rules: rulesElementsTotal,
+                publication: {
+                    title: "",
+                    authors: "",
+                    license: "ORC",
+                    remaster: true
                 }
-            }
-        );
+            },
+            folder: folderId
+        };
+        
+        if (compendiumId) {
+            await Item.create(createData, { pack: compendiumId });
+        } else if (actorId) {
+            const parent = game.actors.get(actorId);
+            await Item.create(createData, { parent: parent });
+        } else {
+            await Item.create(createData);
+        }
     }
 }

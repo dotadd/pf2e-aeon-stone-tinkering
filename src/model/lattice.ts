@@ -1,5 +1,5 @@
 import { EquipmentPF2e } from "foundry-pf2e";
-import { itemBonusByLevel, itemDcByLevel, latticePrice } from "../data/numberTables.js";
+import { itemBonusByLevel, itemDcByLevel, latticePrice } from "../data/data.js";
 
 export class Lattice {
 
@@ -8,6 +8,8 @@ export class Lattice {
         public name: string,
         public text: string,
         public price: number,
+        public color: string,
+        public imgPath: string,
     ) {}
 
     public static formatLatticeText(level: number, name: string): string {
@@ -24,11 +26,11 @@ export class Lattice {
         `Any item bonuses granted will be +${itemBonus}. Any save DCs will be ${dc}.</p>`;
     }
 
-    public static fromDefaults(level: number, name: string): Lattice {
+    public static fromDefaults(level: number, name: string, color: string, imgPath: string = "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp"): Lattice {
         const text = this.formatLatticeText(level, name);
         const price = latticePrice[level-1];
 
-        return new Lattice(level, name, text, price);
+        return new Lattice(level, name, text, price, color, imgPath);
     }
 
     public static fromItem(item: EquipmentPF2e): Lattice {
@@ -41,67 +43,94 @@ export class Lattice {
         const name = item.name;
         const text = item.description;
         const price = item.system.price.value.goldValue;
+        const color = item.getFlag("pf2e-aeon-stone-tinkering", "color") as string;
+        const imgPath = item.img;
 
-        return new Lattice(level, name, text, price)
+        if (!color) {
+            throw new Error("Lattice without color.")
+        }
+
+        return new Lattice(level, name, text, price, color, imgPath)
     }
 
-    public async toItem(): Promise<void> {
-        await Item.create(
-            {
-                name: this.name,
-                type: "equipment",
-                img: "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp",
-                system: {
-                    description: {
-                        value: this.text
+    public async toItem(compendiumId?: string, folderId?: string, actorId?: string): Promise<void> {
+        // handle nonsense cases
+        if (folderId && actorId) {
+            throw new Error("Cannot create item both in folder and on actor.");
+        }
+        if (compendiumId && actorId) {
+            throw new Error("Cannot create item both in compendium and on actor.");
+        }
+
+        const createData = {
+            name: this.name,
+            type: "equipment",
+            img: this.imgPath,
+            system: {
+                description: {
+                    value: this.text
+                },
+                level: {
+                    value: this.level
+                },
+                bulk: {
+                    heldOrStowed: 0.1,
+                    value: 0.1,
+                    per: 1
+                },
+                traits: {
+                    rarity: "uncommon",
+                    value: ["lattice"]
+                },
+                usage: {
+                    value: "other",
+                    type: "worn"
+                },
+                price: {
+                    value: {
+                        pp: 0,
+                        gp: this.price,
+                        sp: 0,
+                        cp: 0
                     },
-                    level: {
-                        value: this.level
-                    },
-                    bulk: {
-                        heldOrStowed: 0.1,
-                        value: 0.1,
-                        per: 1
-                    },
-                    traits: {
-                        rarity: "uncommon",
-                        value: ["lattice"]
-                    },
-                    usage: {
-                        value: "other",
-                        type: "worn"
-                    },
-                    price: {
-                        value: {
-                            pp: 0,
-                            gp: this.price,
-                            sp: 0,
-                            cp: 0
-                        },
-                        per: 1,
-                        sizeSensitive: false
-                    },
-                    identification: {
-                        status: "identified",
-                        unidentified: {
-                            name: "Unidentified Component",
-                            img: "systems/pf2e/icons/unidentified_item_icons/adventuring_gear.webp",
-                            data: {
-                                description: {
-                                    "value": ""
-                                }
+                    per: 1,
+                    sizeSensitive: false
+                },
+                identification: {
+                    status: "identified",
+                    unidentified: {
+                        name: "Unidentified Component",
+                        img: "systems/pf2e/icons/unidentified_item_icons/adventuring_gear.webp",
+                        data: {
+                            description: {
+                                "value": ""
                             }
-                        },
-                        "misidentified": {}
+                        }
                     },
-                    publication: {
-                        title: "",
-                        authors: "",
-                        license: "ORC",
-                        remaster: true
-                    }
+                    "misidentified": {}
+                },
+                publication: {
+                    title: "",
+                    authors: "",
+                    license: "ORC",
+                    remaster: true
                 }
-            }
-        )
+            },
+            flags: {
+                "pf2e-aeon-stone-tinkering": {
+                    color: this.color
+                }
+            },
+            folder: folderId
+        };
+
+        if (compendiumId) {
+            await Item.create(createData, { pack: compendiumId });
+        } else if (actorId) {
+            const parent = game.actors.get(actorId);
+            await Item.create(createData, { parent: parent });
+        } else {
+            await Item.create(createData);
+        }
     }
 }

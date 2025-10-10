@@ -1,86 +1,139 @@
 import { RuleElementSource } from "foundry-pf2e";
-import { itemBonusByLevel, resistanceByLevel } from "../data/numberTables.js";
+import { itemBonusByLevel, itemDcByLevel, resistanceByLevel } from "../data/data.js";
 
 export enum AbilityCategory {
-    lesserSpell = "Lesser Spell", // 1
-    lesserInnateEffect = "Lesser Innate Effect", // 1
-    lesserEquipmentBond = "Lesser Equipment Bond", // 1
-    energySubstitution = "Energy Substitution", // 1
-    spell = "Spell", // 3
-    martialTalent = "Martial Talent", // 3
-    alchemicalInfusion = "Alchemical Infusion", // 3
-    magicTrick = "Magic Trick", // 3
-    restoration = "Restoration", // 5
-    resistance = "Resistance", // 5
-    skillEnhancement = "Skill Enhancement", // 5
-    innateEffect = "Innate Effect", // 5
-    replenishment = "Replenishment", // 7
-    equipmentBond = "Equipment Bond", // 7
-    rush = "Rush", // 7
+    // Level 1+
+    lesserSpell = "Lesser Spell",
+    lesserInnateEffect = "Lesser Innate Effect",
+    lesserEquipmentBond = "Lesser Equipment Bond",
+    energySubstitution = "Energy Substitution",
+    // Level 3+
+    spell = "Spell",
+    martialTalent = "Martial Talent",
+    alchemicalInfusion = "Alchemical Infusion",
+    magicTrick = "Magic Trick",
+    // Level 5+
+    restoration = "Restoration",
+    resistance = "Resistance",
+    skillEnhancement = "Skill Enhancement",
+    innateEffect = "Innate Effect",
+    // Level 7+
+    replenishment = "Replenishment",
+    equipmentBond = "Equipment Bond",
+    rush = "Rush",
 }
 
 export class Ability {
     constructor(
         public category: AbilityCategory,
+        public name: string,
         public text: string,
         public rulesElements: Array<RuleElementSource>,
     ) {}
 
+    public scale(level: number): Ability {
+        const dc = itemDcByLevel[level-1];
+        const itemBonus = itemBonusByLevel[level-1];
+        const resistance = resistanceByLevel[level-1];
+
+        // fully account for item bonuses (to skills, because that's the only kind used)
+        if (this.category === AbilityCategory.skillEnhancement) {
+            this.text = this.text.replace(/\+[0-9] item bonus/, `+${itemBonus} item bonus`);
+            for (let i = 0; i < this.rulesElements.length; i++) {
+                if (this.rulesElements[i].key === "FlatModifier") {
+                    //@ts-ignore
+                    ability.rulesElements[i].value = itemBonus;
+                }
+            }
+        }
+
+        // fully account for resistances
+        if (this.category === AbilityCategory.resistance) {
+            this.text = this.text.replace(/resistance [0-9]* to/, `resistance ${resistance} to`);
+            for (let i = 0; i < this.rulesElements.length; i++) {
+                if (this.rulesElements[i].key === "Resistance") {
+                    //@ts-ignore
+                    ability.rulesElements[i].value = resistance;
+                }
+            }
+        }
+
+        // substitute any DCs in plain text and in @Check syntax
+        this.text = this.text.replace(new RegExp("DC [0-9]*"), "DC " + dc);
+        this.text = this.text.replace(new RegExp("(@Check\[.*?)(dc:[0-9]*)(.*?\])"), "$1" + "dc:" + dc + "$3");
+
+        return this;
+    }
+
+    public formatAbilityText(): string {
+        return `<p><strong>${this.name} (${this.category})</strong></p><p>${this.text}</p>`;
+    }
+
     public static lesserSpell(spellLink: string, tradition: string): Ability {
+        const name = spellLink.replace(/@UUID\[.*\]\{(.*)\}/, "$1");
         const text = `You can cast the ${spellLink} cantrip. If you are spellcaster, use your tradition and spell DC for this spell. Otherwise it belongs to the ${tradition} tradition and uses your class DC.`;
-        return new Ability(AbilityCategory.lesserSpell, text, []);
+        return new Ability(AbilityCategory.lesserSpell, name, text, []);
     }
-    public static lesserInnateEffect(text: string, rulesElements: Array<RuleElementSource> = []): Ability {
-        return new Ability(AbilityCategory.lesserInnateEffect, text, rulesElements);
+    public static lesserInnateEffect(name: string, text: string, rulesElements: Array<RuleElementSource> = []): Ability {
+        return new Ability(AbilityCategory.lesserInnateEffect, name, text, rulesElements);
     }
-    public static lesserEquipmentBond(text: string, rulesElements: Array<RuleElementSource> = []): Ability {
-        return new Ability(AbilityCategory.lesserEquipmentBond, text, rulesElements);
+    public static lesserEquipmentBond(name: string, text: string, rulesElements: Array<RuleElementSource> = []): Ability {
+        return new Ability(AbilityCategory.lesserEquipmentBond, name, text, rulesElements);
     }
     public static energySubstitution(energyType: string): Ability {
+        const name = `${energyType.charAt(0).toUpperCase()}${energyType.slice(1)} Substitution`;
         const text = `Once per hour, when you Cast a Spell or use an action that deals energy damage, you may replace the damage type of that action with ${energyType}.`;
-        return new Ability(AbilityCategory.energySubstitution, text, []);
+        return new Ability(AbilityCategory.energySubstitution, name, text, []);
     }
     public static spell(spellLink: string, tradition: string): Ability {
+        const name = spellLink.replace(/@UUID\[.*\]\{(.*)\}/, "$1");
         const text = `You can cast ${spellLink} once per day. If you are spellcaster, use your tradition and spell DC for this spell. Otherwise it belongs to the ${tradition} tradition and uses your class DC. The spell is cast at a rank equal to half the level of this item, rounded up.`;
-        return new Ability(AbilityCategory.spell, text, []);
+        return new Ability(AbilityCategory.spell, name, text, []);
     }
     public static martialTalent(featLink: string): Ability {
+        const name = featLink.replace(/@UUID\[.*\]\{(.*)\}/, "$1");
         const text = `Once per day, at the start of your turn, you may gain the benefits of the ${featLink} feat for one round. You ignore all prerequisites of that feat and it gains the trait of your class instead of any other class traits.`;
-        return new Ability(AbilityCategory.martialTalent, text, []);
+        return new Ability(AbilityCategory.martialTalent, name, text, []);
     }
     public static alchemicalInfusion(itemLink: string): Ability {
+        let name = itemLink.replace(/@UUID\[.*\]\{(.*)\}/, "$1");
+        name = name.replace(/(.*)\(.*\)/, "$1");
         const text = `Once per day, you may spend one action to gain the effect of an ${itemLink} of a variant whose level is no higher than that of this item.`;
-        return new Ability(AbilityCategory.alchemicalInfusion, text, []);
+        return new Ability(AbilityCategory.alchemicalInfusion, name, text, []);
     }
-    public static magicTrick(text: string, rulesElements: Array<RuleElementSource> = []): Ability {
-        return new Ability(AbilityCategory.magicTrick, text, rulesElements);
+    public static magicTrick(name: string, text: string, rulesElements: Array<RuleElementSource> = []): Ability {
+        return new Ability(AbilityCategory.magicTrick, name, text, rulesElements);
     }
     public static restoration(conditionLink: string): Ability {
+        let name = conditionLink.replace(/@UUID\[.*\]\{(.*)\}/, "$1");
+        name = name + " Restoration";
         const text = `Once per day, at the start of your turn, you may reduce the value of your ${conditionLink} condition by 1 or remove it if it has no value.`;
-        return new Ability(AbilityCategory.restoration, text, []);
+        return new Ability(AbilityCategory.restoration, name, text, []);
     }
     public static resistance(damageType: string, level: number): Ability {
+        const name = `${damageType.charAt(0).toUpperCase()}${damageType.slice(1)} Resistance`;
         const resistanceAmount = resistanceByLevel[level-1];
         const text = `You gain resistance ${resistanceAmount} to ${damageType}.`;
-        const re = {key: "Resistance", type: damageType, value: resistanceAmount};
-        return new Ability(AbilityCategory.resistance, text, [re]);
+        const re = {key: "Resistance", type: damageType, value: resistanceAmount, requiresInvestment: true};
+        return new Ability(AbilityCategory.resistance, name, text, [re]);
     }
     public static skillEnhancement(skill: string, level: number): Ability {
+        const name = `Enhanced ${skill.charAt(0).toUpperCase()}${skill.slice(1)}`;
         const itemBonus = itemBonusByLevel[level-1];
         const text = `You gain a +${itemBonus} item bonus to ${skill} checks.`;
         const re = {key: "FlatModifier", selector: skill, value: itemBonus, type: "item", requiresInvestment: true};
-        return new Ability(AbilityCategory.skillEnhancement, text, [re]);
+        return new Ability(AbilityCategory.skillEnhancement, name, text, [re]);
     }
-    public static innateEffect(text: string, rulesElements: Array<RuleElementSource> = []): Ability {
-        return new Ability(AbilityCategory.innateEffect, text, rulesElements);
+    public static innateEffect(name: string, text: string, rulesElements: Array<RuleElementSource> = []): Ability {
+        return new Ability(AbilityCategory.innateEffect, name, text, rulesElements);
     }
-    public static replenishment(text: string, rulesElements: Array<RuleElementSource> = []): Ability {
-        return new Ability(AbilityCategory.replenishment, text, rulesElements);
+    public static replenishment(name: string, text: string, rulesElements: Array<RuleElementSource> = []): Ability {
+        return new Ability(AbilityCategory.replenishment, name, text, rulesElements);
     }
-    public static equipmentBond(text: string, rulesElements: Array<RuleElementSource> = []): Ability {
-        return new Ability(AbilityCategory.equipmentBond, text, rulesElements);
+    public static equipmentBond(name: string, text: string, rulesElements: Array<RuleElementSource> = []): Ability {
+        return new Ability(AbilityCategory.equipmentBond, name, text, rulesElements);
     }
-    public static rush(text: string, rulesElements: Array<RuleElementSource> = []): Ability {
-        return new Ability(AbilityCategory.rush, text, rulesElements);
+    public static rush(name: string, text: string, rulesElements: Array<RuleElementSource> = []): Ability {
+        return new Ability(AbilityCategory.rush, name, text, rulesElements);
     }
 }

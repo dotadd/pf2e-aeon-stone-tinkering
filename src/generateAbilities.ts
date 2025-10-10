@@ -32,33 +32,41 @@ Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.MPxbKoR54gkYkqLO]{Gou
 Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.uZK2BYzPnxUBnDjr]{Tangle Vine}", "primal")
 
 
-// xx lesserInnateEffect
+// 13 lesserInnateEffect
 //@ts-ignore
-Ability.lesserInnateEffect("Your Fist unarmed attack loses the Nonlethal trait. For the purposes of the @UUID[Compendium.pf2e.actionspf2e.Item.SjmKHgI7a5Z9JzBx]{Force Open} action, you always count as having a @UUID[Compendium.pf2e.equipment-srd.Item.44F1mfJei4GY8f2X]{Crowbar}.", [{fist: true, img: "systems/pf2e/icons/features/classes/powerful-fist.webp", key: "Strike"}, {itemId: "xxxxxxFISTxxxxxx", key: "ItemAlteration", mode: "remove", property: "traits", value: "nonlethal"}])
-Ability.lesserInnateEffect("Once per day, when you roll a flat check and the result is a 4, you may reroll that flat check. This is a Fortune effect.", [])
-Ability.lesserInnateEffect("While you have Darkvision, you can determine colors in darkness even better than you would be able to in bright light.", [])
-Ability.lesserInnateEffect("You ignore difficult terrain from rubble or broken stonework.", [])
-Ability.lesserInnateEffect("You ignore difficult terrain from plants, fungi and dense foliage.", [])
-Ability.lesserInnateEffect("You ignore difficult terrain from shallow water, mud or marshland, as long as it is not too deep for you to stand with your head above the surface.", [])
-Ability.lesserInnateEffect("You are particularly adept at ignoring danger. When you Avert Gaze, you can gain the +2 circumstance bonus against your choice of auditory or olfactory effects instead of visual.", [])
+Ability.lesserInnateEffect("Powerful Fists", "Your Fist unarmed attack loses the Nonlethal trait. For the purposes of the @UUID[Compendium.pf2e.actionspf2e.Item.SjmKHgI7a5Z9JzBx]{Force Open} action, you always count as having a @UUID[Compendium.pf2e.equipment-srd.Item.44F1mfJei4GY8f2X]{Crowbar}.", [{fist: true, img: "systems/pf2e/icons/features/classes/powerful-fist.webp", key: "Strike"}, {itemId: "xxxxxxFISTxxxxxx", key: "ItemAlteration", mode: "remove", property: "traits", value: "nonlethal"}])
+Ability.lesserInnateEffect("Mote of Luck", "Once per day, when you roll a flat check and the result is a 4, you may reroll that flat check. This is a Fortune effect.", [])
+Ability.lesserInnateEffect("Vibrant Darkvision", "While you have Darkvision, you can determine colors in darkness even better than you would be able to in bright light.", [])
+// MAKE EFFECTS
+Ability.lesserInnateEffect("Stonestrider", "You ignore difficult terrain from rubble or broken stonework.", [])
+Ability.lesserInnateEffect("Woodstrider", "You ignore difficult terrain from plants, fungi and dense foliage.", [])
+Ability.lesserInnateEffect("Marshstrider", "You ignore difficult terrain from shallow water, mud or marshland, as long as it is not too deep for you to stand with your head above the surface.", [])
+// MAKE EFFECT
+Ability.lesserInnateEffect("Danger Aversion", "When you Avert Gaze, you can gain the +2 circumstance bonus against your choice of auditory or olfactory effects instead of visual.", [])
 //@ts-ignore
-Ability.lesserInnateEffect("While Sickened, instead of a status penalty, the Sickened condition grants you a status bonus to fortitude saves against olfactory or inhaled effects.", [{"key":"AdjustModifier","mode":"multiply","selector":"fortitude","predicate":[{"or":["item:trait:olfactory","item:trait:inhaled"]}],"slug":"sickened","value":-1}])
-Ability.lesserInnateEffect("You constantly draw in moisture from the air around you. You do not need to drink.", [])
-Ability.lesserInnateEffect("You can @UUID[Compendium.pf2e.actionspf2e.Item.3yoajuKjwHZ9ApUY]{Grab an Edge} while your hands are occupied. After doing so, for one round you can @UUID[Compendium.pf2e.actionspf2e.Item.pprgrYQ1QnIDGZiy]{Climb} to pull yourself up onto a ledge while your hands are occupied.", [])
-Ability.lesserInnateEffect("Once per day, when an enemy escapes from your Grapple, you may @UUID[Compendium.pf2e.actionspf2e.Item.7blmbDrQFNfdT731]{Shove} that enemy as a reaction.", [])
-Ability.lesserInnateEffect("", [])
-Ability.lesserInnateEffect("", [])
+Ability.lesserInnateEffect("Respiratory Response", "While Sickened, instead of a status penalty, the Sickened condition grants you a status bonus to fortitude saves against olfactory or inhaled effects.", [{"key":"AdjustModifier","mode":"multiply","selector":"fortitude","predicate":[{"or":["item:trait:olfactory","item:trait:inhaled"]}],"slug":"sickened","value":-1}])
+Ability.lesserInnateEffect("Self-Moisturization", "You constantly draw in moisture from the air around you. You do not need to drink.", [])
+Ability.lesserInnateEffect("Gravitational Rappel", "You can @UUID[Compendium.pf2e.actionspf2e.Item.3yoajuKjwHZ9ApUY]{Grab an Edge} while your hands are occupied. After doing so, for one round you can @UUID[Compendium.pf2e.actionspf2e.Item.pprgrYQ1QnIDGZiy]{Climb} to pull yourself up onto a ledge while your hands are occupied.", [])
+Ability.lesserInnateEffect("Repulsion", "Once per day, when an enemy escapes from your Grapple, you may @UUID[Compendium.pf2e.actionspf2e.Item.7blmbDrQFNfdT731]{Shove} that enemy as a reaction.", [])
+Ability.lesserInnateEffect("Targeting Assist", "Once per day, when you make a flat check to target a @UUID[Compendium.pf2e.conditionitems.Item.DmAIPqOBomZ7H95W]{Concealed} or @UUID[Compendium.pf2e.conditionitems.Item.iU0fEDdBp3rXpTMC]{Hidden} creature, reduce the DC of that flat check by 5.", [])
+Ability.lesserInnateEffect("Taste Enhancer", "Once per day, when an elixir or potion restores hit points to you, it restores an additional [[/r 10]] hit points.", [])
 
 
-// xx lesserEquipmentBond
-Ability.lesserEquipmentBond("Once per day, as part of a Strike, you may grant the weapon you are using for that Strike the effect of a Potency Crystal of a level no higher than that of this item. @UUID[Compendium.pf2e.equipment-effects.Item.R5ugeFK3MPwkbv0s]{Effect: Potency Crystal}", [])
-Ability.lesserEquipmentBond("Once per day, when you critically succeed at a Strike attack roll, your attack gains the critical specialization effect of the weapon or unarmed attack.", [])
-Ability.lesserEquipmentBond("Once per day, when you @UUID[Compendium.pf2e.actionspf2e.Item.ge56Lu1xXVFYUnLP]{Trip} an enemy, you may deal @Damage[(@actor.abilities.str.mod)[bludgeoning]]{bludgeoning damage} equal to your Strength to the enemy.", [])
-Ability.lesserEquipmentBond("Once per day, when you @UUID[Compendium.pf2e.actionspf2e.Item.XMcnh4cSI32tljXa]{Hide}, you may immediately Sneak using the same stealth check.", [])
-Ability.lesserEquipmentBond("Once per day, when you critically fail at a check to @UUID[Compendium.pf2e.actionspf2e.Item.1kGNdIIhuglAjIp9]{Treat Wounds}, you get a failure instead.", [])
-Ability.lesserEquipmentBond("", [])
-Ability.lesserEquipmentBond("", [])
-Ability.lesserEquipmentBond("", [])
+// 13 lesserEquipmentBond
+Ability.lesserEquipmentBond("Potency Surge", "Once per day, as part of a Strike, you may grant the weapon you are using for that Strike the effect of a Potency Crystal of a level no higher than that of this item. @UUID[Compendium.pf2e.equipment-effects.Item.R5ugeFK3MPwkbv0s]{Effect: Potency Crystal}", [])
+Ability.lesserEquipmentBond("Grievous Strike", "Once per day, when you critically succeed at a Strike attack roll, your attack gains the critical specialization effect of the weapon or unarmed attack.", [])
+Ability.lesserEquipmentBond("Hard Drop", "Once per day, when you @UUID[Compendium.pf2e.actionspf2e.Item.ge56Lu1xXVFYUnLP]{Trip} an enemy, you may deal @Damage[(@actor.abilities.str.mod)[bludgeoning]]{bludgeoning damage} equal to your Strength to the enemy.", [])
+Ability.lesserEquipmentBond("Timely Escape", "Once per day, when you @UUID[Compendium.pf2e.actionspf2e.Item.XMcnh4cSI32tljXa]{Hide}, you may immediately @UUID[Compendium.pf2e.actionspf2e.Item.VMozDqMMuK5kpoX4]{Sneak} using the same stealth check.", [])
+Ability.lesserEquipmentBond("Medical Stopgap", "Once per day, when you critically fail at a check to @UUID[Compendium.pf2e.actionspf2e.Item.1kGNdIIhuglAjIp9]{Treat Wounds}, you get a failure instead.", [])
+Ability.lesserEquipmentBond("Emergency Shield", "Once per day, you may use the @UUID[Compendium.pf2e.feats-srd.Item.jM72TjJ965jocBV8]{Shield Block} reaction, even if you do not have the prerequisite feat. If you do have the Shield Block general feat, you may once per day use it to reduce damage of any type, not just bludgeoning, piercing or slashing.", [])
+// MAKE EFFECTS
+Ability.lesserEquipmentBond("Blunt Weapon", "Once per day, as a free action, you may grant a weapon you are wielding the Versatile: Bludgeoning trait for 1 minute.", [])
+Ability.lesserEquipmentBond("Sharpen Edges", "Once per day, as a free action, you may grant a weapon you are wielding the Versatile: Slashing trait for 1 minute.", [])
+Ability.lesserEquipmentBond("Draw Spikes", "Once per day, as a free action, you may grant a weapon you are wielding the Versatile: Piercing trait for 1 minute.", [])
+Ability.lesserEquipmentBond("Weightless Armor", "Once per day, as a free action, you may reduce the speed penalty of your armor by 5 feet until the end of your turn. This reduction is in addition to the one you might get for meeting the armor's strength requirement.", [])
+Ability.lesserEquipmentBond("Armored Tackle", "Once per day, you may attempt to @UUID[Compendium.pf2e.actionspf2e.Item.ge56Lu1xXVFYUnLP]{Trip} a creature despite having your hands full, as long as you are wearing heavy armor. When you do so, you also push the target 5 feet away from you on a success or 10 feet on a critical success.", [])
+Ability.lesserEquipmentBond("Repel Weapon", "Once per day, when an enemy misses you with a melee weapon Strike, if you have a free hand or are wielding a weapon with the Disarm trait, you can try to @UUID[Compendium.pf2e.actionspf2e.Item.Dt6B1slsBy8ipJu9]{Disarm} the enemy of that weapon as a reaction. You can even do so, if the enemy is not in your reach, as long as you are within reach of the enemy's weapon.", [])
+Ability.lesserEquipmentBond("Armored Vitals", "Once per day, when you are critically hit by a ranged Strike, if you are wearing medium or heavy armor, you can reduce the damage you suffer by an amount equal to 5 + the level of this item.", [])
 
 // 12 energySubstitution
 Ability.energySubstitution("acid")
@@ -131,7 +139,7 @@ Ability.martialTalent("@UUID[Compendium.pf2e.feats-srd.Item.5My8JBXkQru8m2n1]{Da
 // 14 alchemicalInfusion
 Ability.alchemicalInfusion("@UUID[Compendium.pf2e.equipment-srd.Item.9F3d43xMDCJNIkDo]{Bendy-Arm Mutagen (Lesser)}")
 Ability.alchemicalInfusion("@UUID[Compendium.pf2e.equipment-srd.Item.IQK9N2mEOyAj3iWU]{Bestial Mutagen (Lesser)}")
-Ability.alchemicalInfusion("@UUID[Compendium.pf2e.equipment-srd.Item.tyt6rFtv32MZ4DT9]{Cheetah&#x27;s Elixir (Lesser)}")
+Ability.alchemicalInfusion("@UUID[Compendium.pf2e.equipment-srd.Item.tyt6rFtv32MZ4DT9]{Cheetah's Elixir (Lesser)}")
 Ability.alchemicalInfusion("@UUID[Compendium.pf2e.equipment-srd.Item.wbr6rkyaVYnDhdgV]{Cognitive Mutagen (Lesser)}")
 Ability.alchemicalInfusion("@UUID[Compendium.pf2e.equipment-srd.Item.GS4YvQieBS11JNYR]{Drakeheart Mutagen (Lesser)}")
 Ability.alchemicalInfusion("@UUID[Compendium.pf2e.equipment-srd.Item.7Y2yOr4ltpP2tyuL]{Eagle Eye Elixir (Lesser)}")
@@ -142,17 +150,35 @@ Ability.alchemicalInfusion("@UUID[Compendium.pf2e.equipment-srd.Item.YwRAHWW8yUI
 Ability.alchemicalInfusion("@UUID[Compendium.pf2e.equipment-srd.Item.e2II4yMBFBqVivnk]{Bottled Catharsis (Minor)}")
 Ability.alchemicalInfusion("@UUID[Compendium.pf2e.equipment-srd.Item.5MKBwpE401uz4kNN]{Quicksilver Mutagen (Lesser)}")
 Ability.alchemicalInfusion("@UUID[Compendium.pf2e.equipment-srd.Item.yE7PPagK0wsHMA8l]{Surging Serum (Minor)}")
-Ability.alchemicalInfusion("@UUID[Compendium.pf2e.equipment-srd.Item.zM9VX3QwM81DzDUA]{Bravo&#x27;s Brew (Lesser)}")
+Ability.alchemicalInfusion("@UUID[Compendium.pf2e.equipment-srd.Item.zM9VX3QwM81DzDUA]{Bravo's Brew (Lesser)}")
 
 
 // xx magicTrick
-Ability.magicTrick("", [])
+Ability.magicTrick("Poison Thoughts", "Once per hour, when you cast a spell with the poison trait, use an action with the poison trait or attack with a poisoned weapon and would force exactly one creature to make a fortitude save, you may replace the poison trait with the mental trait, any poison damage with mental damage and the fortitude save with a will save.", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
 
 
 // LEVEL 5
 
-// xx spell rank 3
-Ability.spell("", "arcane")
+// 8 spell rank 3
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.06pzGkKTyPE3tHR8]{Gravity Well}", "arcane")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.I0j56TNRmGcTyoqJ]{Shared Invisibility}", "arcane")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.0JWyMwVnLxX9CDYQ]{Rouse Skeletons}", "divine")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.DyiD239dNS7RIxZE]{Holy Light}", "divine")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.ZYoC630tNGutgbE0]{Hypercognition}", "occult")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.AMEu5zzLN7uCX645]{Ghostly Weapon}", "occult")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.9AAkVUCwF6WVNNY2]{Lightning Bolt}", "primal")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.gPvtmKMRpg9I9D7H]{Earthbind}", "primal")
 
 
 // 10 restoration
@@ -202,33 +228,68 @@ Ability.resistance("void", 5)
 
 // xx innateEffect
 //@ts-ignore
-Ability.innateEffect("Your features become indistinct. You do not need a Disguise Kit to Impersonate. You gain a +2 circumstance bonus to deception checks to Impersonate, but suffer a -2 circumstance penalty to diplomacy checks to Make an Impression.", [{key: "FlatModifier", selector: "deception", value: 2, type: "circumstance", predicate: ["action:impersonate"]}, {key: "FlatModifier", selector: "diplomacy", value: -2, type: "circumstance", predicate: ["action:make-an-impression"]}])
-Ability.innateEffect("XXX1/day Cast without triggeringXXX", [])
-Ability.innateEffect("", [])
-Ability.innateEffect("", [])
-Ability.innateEffect("", [])
+Ability.innateEffect("Indistinct Features", "You do not need a Disguise Kit to Impersonate. You gain a +2 circumstance bonus to deception checks to Impersonate, but suffer a -2 circumstance penalty to diplomacy checks to Make an Impression.", [{key: "FlatModifier", selector: "deception", value: 2, type: "circumstance", predicate: ["action:impersonate"]}, {key: "FlatModifier", selector: "diplomacy", value: -2, type: "circumstance", predicate: ["action:make-an-impression"]}])
+Ability.innateEffect("", "", [])
+//@ts-ignore
+Ability.innateEffect("Steady Footwork", "You gain a +1 circumstance bonus to your Fortitude or Reflex DC against attempts to @UUID[Compendium.pf2e.actionspf2e.Item.lOE4yjUnETTdaf2T]{Reposition}, @UUID[Compendium.pf2e.actionspf2e.Item.7blmbDrQFNfdT731]{Shove}, or @UUID[Compendium.pf2e.actionspf2e.Item.ge56Lu1xXVFYUnLP]{Trip} you. This bonus also applies to saving throws against spells or effects that attempt to force you to move or knock you @UUID[Compendium.pf2e.conditionitems.Item.j91X7x0XSomq8d60]{Prone}.", [{hideIfDisabled: true, key: "FlatModifier", label: "PF2E.SkillVariant.VsShoveOrTrip", predicate: [{or: ["action:shove","action:trip","action:reposition"]}], selector: ["fortitude", "reflex"], type: "circumstance", value: 1},{key: "FlatModifier",label: "PF2E.SkillVariant.VsProne",predicate: ["inflicts:prone"],selector: "saving-throw",type: "circumstance",value: 1}])
+Ability.innateEffect("", "", [])
+Ability.innateEffect("", "", [])
+Ability.innateEffect("", "", [])
+Ability.innateEffect("", "", [])
+Ability.innateEffect("", "", [])
 
 
 // LEVEL 7
 
-// xx spell rank 4
-Ability.spell("", "arcane")
+// 8 spell rank 4
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.zR67Rt3UMHKC5evy]{Flicker}", "arcane")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.VlNcjmYyu95vOUe8]{Translocate}", "arcane")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.hVU9msO9yGkxKZ3J]{Divine Wrath}", "divine")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.gfKhtVsXF3HKSdmY]{Seal Fate}", "divine")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.V8wXOsoejQhe6CyG]{Vapor Form}", "occult")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.FwW2asotQE8dH1WP]{Whispers of the Void}", "occult")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.YrzBLPLd3r9m6t1p]{Fire Shield}", "primal")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.kHyjQbibRGPNCixx]{Ice Storm}", "primal")
 
 // xx martial talent
 Ability.martialTalent("")
+Ability.martialTalent("")
+Ability.martialTalent("")
+Ability.martialTalent("")
+Ability.martialTalent("")
 
 // xx magicTrick
-Ability.magicTrick("", [])
+Ability.magicTrick("Practiced Spellshapes", "If you have the @UUID[Compendium.pf2e.feats-srd.Item.BWomK7EVY0WXxWgh]{Reach Spell} or @UUID[Compendium.pf2e.feats-srd.Item.FoWO4RnHRwfEIC7Q]{Widen Spell} spellshapes, you may once per day use either one of them as a free action.", [])
+Ability.magicTrick("Defensive Casting", "<span class=\"action-glyph\">f</span> (Concentrate, Spellshape) Once per day, when your next action is to Cast a Spell, remove the Manipulate trait from it.", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
+
 
 // xx replenishment
-Ability.replenishment("", [])
+Ability.replenishment("Instant Focus", "Once per day, as a free action, you can regain an expended focus point.", [])
+Ability.replenishment("Persistent Grandeur", "Once per day, after you expend @UUID[Compendium.pf2e.classfeatures.Item.LzYi0OuOoypNb6jd]{Panache}, expel your @UUID[Compendium.pf2e.classfeatures.Item.GtxSH6TudkQoKToW]{Divine Spark} from an Ikon or lose a similar power-up state, you immediately regain it.", [])
+Ability.replenishment("Practiced Spellcraft", "Once per day, as a free action you can regain the use of a spell slot that is at least 2 ranks below your highest ranked spell slot. You can use that regained spell slot only until the end of your turn, at which point it is lost.", [])
+Ability.replenishment("", "", [])
+Ability.replenishment("", "", [])
 
 // xx equipmentBond
-Ability.equipmentBond("Once per minute, when you activate a piece of ammunition, you may do so using one fewer action than normal.", [])
-Ability.equipmentBond("", [])
+Ability.equipmentBond("Automatic Initialization", "Once per round, when you activate a piece of ammunition, you may do so using one fewer action than normal.", [])
+Ability.equipmentBond("Featherweight", "Once per day, when you are knocked @UUID[Compendium.pf2e.conditionitems.Item.j91X7x0XSomq8d60]{Prone}, if you are wearing light or no armor, you may immediately Stand as a free action that does not provoke reactions.", [])
+// MAKE EFFECT
+Ability.equipmentBond("Furious Weapon", "Once per day, as a free action you may grant a weapon you are wielding the Forceful and Sweep traits until the end of your turn.", [])
+Ability.equipmentBond("", "", [])
+Ability.equipmentBond("", "", [])
+Ability.equipmentBond("", "", [])
+Ability.equipmentBond("", "", [])
+Ability.equipmentBond("", "", [])
 
 // xx rush
-Ability.rush("", [])
+Ability.rush("", "", [])
+Ability.rush("", "", [])
+Ability.rush("", "", [])
+Ability.rush("", "", [])
+Ability.rush("", "", [])
 
 
 // LEVEL 9
@@ -242,13 +303,28 @@ Ability.restoration("@UUID[Compendium.pf2e.conditionitems.Item.dfCMdR4wnpbYNTix]
 Ability.restoration("@UUID[Compendium.pf2e.conditionitems.Item.9qGBRpbX9NEwtAAr]{Controlled}")
 
 
-// xx spell rank 5
-Ability.spell("", "arcane")
+// 8 spell rank 5
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.Y3qZrvZrqPuGJ2hk]{Shock and Awe}", "arcane")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.TCk2MDwf5L5OYjFC]{Cloak of Colors}", "arcane")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.IqJ9URobmJ9L9UBG]{Shadow Blast}", "divine")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.Ek5XI0aEdZhBgm21]{Scouting Eye}", "divine")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.vuehhQN8gPSpqcEK]{Instant Minefield}", "occult")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.tpLTLbJUrYcMWGld]{Telekinetic Haul}", "occult")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.BlfOg9Ceymgjstjm]{Corrosive Muck}", "primal")
+Ability.spell("@UUID[Compendium.pf2e.spells-srd.Item.xxWhyl81w3ckslAU]{Howling Blizzard}", "primal")
 
 
 // xx martial talent
 Ability.martialTalent("")
+Ability.martialTalent("")
+Ability.martialTalent("")
+Ability.martialTalent("")
+Ability.martialTalent("")
+Ability.martialTalent("")
 
 
 // xx magicTrick
-Ability.magicTrick("", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
+Ability.magicTrick("", "", [])
