@@ -61,7 +61,7 @@ export class Ability {
 
         // fully account for resistances
         if (this.category === AbilityCategory.resistance) {
-            this.text = this.text.replace(/resistance [0-9]* to/, `resistance ${resistance} to`);
+            this.text = this.text.replace(/resistance [0-9]+ to/, `resistance ${resistance} to`);
             for (let i = 0; i < this.rulesElements.length; i++) {
                 if (this.rulesElements[i].key === "Resistance") {
                     //@ts-ignore
@@ -71,8 +71,8 @@ export class Ability {
         }
 
         // substitute any DCs in plain text and in @Check syntax
-        this.text = this.text.replace(new RegExp("DC [0-9]*"), "DC " + dc);
-        this.text = this.text.replace(new RegExp("(@Check\[.*?)(dc:[0-9]*)(.*?\])"), "$1" + "dc:" + dc + "$3");
+        this.text = this.text.replace(/DC [0-9]+/, "DC " + dc);
+        this.text = this.text.replace(/(@Check\[.*?)(dc:[0-9]+)(.*?\])/, "$1" + "dc:" + dc + "$3");
 
         return this;
     }
