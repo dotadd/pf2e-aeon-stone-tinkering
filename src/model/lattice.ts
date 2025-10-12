@@ -1,5 +1,5 @@
 import { EquipmentPF2e } from "foundry-pf2e";
-import { itemBonusByLevel, itemDcByLevel, latticePrice } from "../data/data.js";
+import { aeonStoneColor, itemBonusByLevel, itemDcByLevel, latticePrice } from "../data/data.js";
 
 export class Lattice {
 
@@ -8,7 +8,7 @@ export class Lattice {
         public name: string,
         public text: string,
         public price: number,
-        public color: string,
+        public color: aeonStoneColor,
         public imgPath: string,
     ) {}
 
@@ -26,7 +26,7 @@ export class Lattice {
         `Any item bonuses granted will be +${itemBonus}. Any save DCs will be ${dc}.</p>`;
     }
 
-    public static fromDefaults(level: number, name: string, color: string, imgPath: string = "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp"): Lattice {
+    public static fromDefaults(level: number, name: string, color: aeonStoneColor, imgPath: string = "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp"): Lattice {
         const text = this.formatLatticeText(level, name);
         const price = latticePrice[level-1];
 
@@ -43,7 +43,7 @@ export class Lattice {
         const name = item.name;
         const text = item.description;
         const price = item.system.price.value.goldValue;
-        const color = item.getFlag("pf2e-aeon-stone-tinkering", "color") as string;
+        const color = item.getFlag("pf2e-aeon-stone-tinkering", "color") as aeonStoneColor;
         const imgPath = item.img;
 
         if (!color) {

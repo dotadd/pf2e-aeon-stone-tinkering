@@ -4,6 +4,7 @@ import {
     l1LesserInnateEffect,
     l1LesserSpell,
 } from "./createAbilities.js";
+import { aeonStoneColor } from "./data/data.js";
 import { AbilityCategory } from "./model/ability.js";
 import { Impurity } from "./model/impurity.js";
 import { Lattice } from "./model/lattice.js";
@@ -80,16 +81,16 @@ export async function getCreationContext(compendium: string): Promise<{latticeFo
 
 
 export async function createLattices(compendium: string, folder: string): Promise<void> {
-    await Lattice.fromDefaults(1, "Amber Lattice", "Amber", "systems/pf2e/icons/equipment/treasure/gems/greater-semiprecious-stones/amber.webp").toItem(compendium, folder);
-    await Lattice.fromDefaults(3, "Pearl Lattice", "Pearly White", "systems/pf2e/icons/equipment/treasure/gems/greater-semiprecious-stones/saltwater-pearl.webp").toItem(compendium, folder);
-    await Lattice.fromDefaults(5, "Malachite Lattice", "Green-Patterned", "systems/pf2e/icons/equipment/treasure/gems/greater-semiprecious-stones/jade.webp").toItem(compendium, folder);
-    await Lattice.fromDefaults(7, "Opal Lattice", "Opaline", "systems/pf2e/icons/equipment/treasure/gems/lesser-precious-stones/opal.webp").toItem(compendium, folder);
-    await Lattice.fromDefaults(9, "Sodalite Lattice", "Speckled Blue", "systems/pf2e/icons/equipment/treasure/gems/lesser-semiprecious-stones/lapis-lazuli.webp").toItem(compendium, folder);
-    await Lattice.fromDefaults(11, "Hematite Lattice", "Red-Streaked Black", "systems/pf2e/icons/equipment/treasure/gems/greater-semiprecious-stones/garnet.webp").toItem(compendium, folder);
-    await Lattice.fromDefaults(13, "Sugilite Lattice", "Flat Purple", "systems/pf2e/icons/equipment/other/spellhearts/perfect-droplet.webp").toItem(compendium, folder);
-    await Lattice.fromDefaults(15, "Aquamarine Lattice", "Brilliant Blue", "systems/pf2e/icons/equipment/treasure/gems/lesser-precious-stones/aquamarine.webp").toItem(compendium, folder);
-    await Lattice.fromDefaults(17, "Alexandrite Lattice", "Shifting", "systems/pf2e/icons/equipment/treasure/gems/greater-semiprecious-stones/amethyst.webp").toItem(compendium, folder);
-    await Lattice.fromDefaults(19, "Diamond Lattice", "Brilliant", "systems/pf2e/icons/equipment/treasure/gems/greater-precious-stones/large-diamond.webp").toItem(compendium, folder);
+    await Lattice.fromDefaults(1, "Amber Lattice", aeonStoneColor.amber, "systems/pf2e/icons/equipment/treasure/gems/greater-semiprecious-stones/amber.webp").toItem(compendium, folder);
+    await Lattice.fromDefaults(3, "Pearl Lattice", aeonStoneColor.pearlyWhite, "systems/pf2e/icons/equipment/treasure/gems/greater-semiprecious-stones/saltwater-pearl.webp").toItem(compendium, folder);
+    await Lattice.fromDefaults(5, "Malachite Lattice", aeonStoneColor.greenPatterned, "systems/pf2e/icons/equipment/treasure/gems/greater-semiprecious-stones/jade.webp").toItem(compendium, folder);
+    await Lattice.fromDefaults(7, "Opal Lattice", aeonStoneColor.opaline, "systems/pf2e/icons/equipment/treasure/gems/lesser-precious-stones/opal.webp").toItem(compendium, folder);
+    await Lattice.fromDefaults(9, "Sodalite Lattice", aeonStoneColor.speckledBlue, "systems/pf2e/icons/equipment/treasure/gems/lesser-semiprecious-stones/lapis-lazuli.webp").toItem(compendium, folder);
+    await Lattice.fromDefaults(11, "Hematite Lattice", aeonStoneColor.redStreakedBlack, "systems/pf2e/icons/equipment/treasure/gems/greater-semiprecious-stones/garnet.webp").toItem(compendium, folder);
+    await Lattice.fromDefaults(13, "Sugilite Lattice", aeonStoneColor.flatPurple, "systems/pf2e/icons/equipment/other/spellhearts/perfect-droplet.webp").toItem(compendium, folder);
+    await Lattice.fromDefaults(15, "Aquamarine Lattice", aeonStoneColor.radiantBlue, "systems/pf2e/icons/equipment/treasure/gems/lesser-precious-stones/aquamarine.webp").toItem(compendium, folder);
+    await Lattice.fromDefaults(17, "Alexandrite Lattice", aeonStoneColor.shifting, "systems/pf2e/icons/equipment/treasure/gems/greater-semiprecious-stones/amethyst.webp").toItem(compendium, folder);
+    await Lattice.fromDefaults(19, "Diamond Lattice", aeonStoneColor.brilliant, "systems/pf2e/icons/equipment/treasure/gems/greater-precious-stones/large-diamond.webp").toItem(compendium, folder);
 }
 
 export async function createMolds(compendium: string, folder: string): Promise<void> {
@@ -122,7 +123,7 @@ export async function createMolds(compendium: string, folder: string): Promise<v
 }
 
 export async function createImpurities(compendium: string, folder: string): Promise<void> {
-    await Impurity.fromDefaults(1, "Sodium Chloride", [l1LesserSpell[6], l1LesserInnateEffect[0], l1LesserEquipmentBond[6], l1EnergySubstitution[0]]).toItem(compendium, folder);
-    await Impurity.fromDefaults(1, "Acetic Acid", [l1LesserSpell[18], l1LesserInnateEffect[8], l1LesserEquipmentBond[4], l1EnergySubstitution[1]]).toItem(compendium, folder);
-    await Impurity.fromDefaults(1, "Ethanol", [l1LesserSpell[17], l1LesserInnateEffect[11], l1LesserEquipmentBond[0], l1EnergySubstitution[4]]).toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Sodium Chloride", [l1LesserSpell[6], l1LesserInnateEffect[0], l1LesserEquipmentBond[6], l1EnergySubstitution[0]], "systems/pf2e/icons/equipment/consumables/oils/aligned-oil.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Acetic Acid", [l1LesserSpell[18], l1LesserInnateEffect[8], l1LesserEquipmentBond[4], l1EnergySubstitution[1]], "systems/pf2e/icons/equipment/consumables/oils/nectar-of-purification.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Ethanol", [l1LesserSpell[17], l1LesserInnateEffect[11], l1LesserEquipmentBond[0], l1EnergySubstitution[4]], "systems/pf2e/icons/equipment/consumables/other-consumables/black-powder-keg.webp").toItem(compendium, folder);
 }

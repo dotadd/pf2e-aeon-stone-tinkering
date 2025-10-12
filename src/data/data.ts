@@ -167,3 +167,43 @@ export const resistanceByLevel = [
     21,
     22,
 ]
+
+export enum aeonStoneColor {
+    amber = "Amber",
+    pearlyWhite = "Pearly White",
+    greenPatterned = "Green-Patterned",
+    opaline = "Opaline",
+    speckledBlue = "Speckled Blue",
+    redStreakedBlack = "Red-Streaked Black",
+    flatPurple = "Flat Purple",
+    radiantBlue = "Radiant Blue",
+    shifting = "Shifting",
+    brilliant = "Brilliant",
+}
+
+export function getAeonStoneImage(color: aeonStoneColor): string {
+    switch (color) {
+        case aeonStoneColor.amber:
+            return "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-gold-nodule.webp";
+        case aeonStoneColor.pearlyWhite:
+            return "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-pearlescent-pyramid.webp";
+        case aeonStoneColor.greenPatterned:
+            return "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-lavender-and-green-ellipsoid.webp";
+        case aeonStoneColor.opaline:
+            return "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-agate-ellipsoid.webp";
+        case aeonStoneColor.speckledBlue:
+            return "systems/pf2e/icons/equipment/treasure/gems/lesser-semiprecious-stones/lapis-lazuli.webp";
+        case aeonStoneColor.redStreakedBlack:
+            return "systems/pf2e/icons/equipment/treasure/gems/greater-semiprecious-stones/garnet.webp";
+        case aeonStoneColor.flatPurple:
+            return "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-dusty-rose-prism.webp";
+        case aeonStoneColor.radiantBlue:
+            return "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-azure-briolette.webp";
+        case aeonStoneColor.shifting:
+            return "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp";
+        case aeonStoneColor.brilliant:
+            return "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-pearly-white-spindle.webp";
+        default:
+            return "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-western-star.webp";
+    }
+}

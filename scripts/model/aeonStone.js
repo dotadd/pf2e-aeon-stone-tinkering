@@ -1,5 +1,5 @@
 import { AbilityCategory } from "./ability.js";
-import { aeonStonePrice, itemBonusByLevel, itemDcByLevel, resistanceByLevel } from "../data/data.js";
+import { aeonStonePrice, getAeonStoneImage, itemBonusByLevel, itemDcByLevel, resistanceByLevel } from "../data/data.js";
 export class AeonStone {
     level;
     name;
@@ -101,8 +101,8 @@ export class AeonStone {
         // set level
         const level = lattice.level;
         // generate name
-        const shape = `${mold.shape.charAt(0).toUpperCase()}${mold.shape.slice(1)}`;
-        const color = `${lattice.color.charAt(0).toUpperCase()}${lattice.color.slice(1)}`;
+        const shape = mold.shape;
+        const color = lattice.color;
         const name = `Experimental Aeon Stone (${color} ${shape})`;
         // compile abilities
         let abilitiesRegular = new Array;
@@ -135,7 +135,8 @@ export class AeonStone {
         // get text
         const text = AeonStone.formatAeonStoneText(abilitiesRegular, abilitiesResonant);
         // get image (static for now)
-        const imgPath = "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp";
+        const imgPath = getAeonStoneImage(color);
+        // const imgPath = "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp";
         return new AeonStone(level, name, text, price, rulesElementsRegular, rulesElementsResonant, imgPath);
     }
     async toItem(compendiumId, folderId, actorId) {
