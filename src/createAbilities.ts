@@ -8,7 +8,7 @@ export const l1LesserSpell = [
     Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.TVKNbcgTee19PXZR]{Shield}", "arcane"),
     Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.zA0jNIBRgLsyTpbm]{Scatter Scree}", "arcane"),
     Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.pwzdSlJgYqN7bs2w]{Telekinetic Hand}", "arcane"),
-    Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.Qw3fnUlaUbnn7ipC]{Prestidigitation}", "arcane"),
+    Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.Qw3fnUlaUbnn7ipC]{Prestidigitation}", "arcane"), //
     Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.yvs1zN5Pai5U4CJX]{Summon Instrument}", "occult"),
     Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.60sgbuMWN0268dB7]{Telekinetic Projectile}", "occult"),
     Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.b5BQbwmuBhgPXTyi]{Haunting Hymn}", "occult"),
@@ -19,8 +19,8 @@ export const l1LesserSpell = [
     Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.izcxFQFwf3woCnFs]{Guidance}", "divine"),
     Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.kcelf6IHl3L9VXXg]{Vitality Lash}", "divine"),
     Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.mAMEt4FFbdqoRnkN]{Void Warp}", "divine"),
-    Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.6DfLZBl8wKIV03Iq]{Ignition}", "primal"),
-    Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.thAHF1zxNplLCJPO]{Caustic Blast}", "primal"),
+    Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.6DfLZBl8wKIV03Iq]{Ignition}", "primal"), //
+    Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.thAHF1zxNplLCJPO]{Caustic Blast}", "primal"), //
     Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.kBhaPuzLUSwS6vVf]{Electric Arc}", "primal"),
     Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.D7ZEhTNIDWDLC2J4]{Puff of Poison}", "primal"),
     Ability.lesserSpell("@UUID[Compendium.pf2e.spells-srd.Item.eSL5hVT9gXrnRLtd]{Spout}", "primal"),
@@ -32,6 +32,7 @@ export const l1LesserSpell = [
 ]
 
 export const l1LesserInnateEffect = [
+    Ability.lesserInnateEffect("Taste Enhancer", "Once per day, when an elixir or potion restores hit points to you, it restores an additional [[/r 10]] hit points.", []), //
     //@ts-ignore
     Ability.lesserInnateEffect("Powerful Fists", "Your Fist unarmed attack loses the Nonlethal trait. For the purposes of the @UUID[Compendium.pf2e.actionspf2e.Item.SjmKHgI7a5Z9JzBx]{Force Open} action, you always count as having a @UUID[Compendium.pf2e.equipment-srd.Item.44F1mfJei4GY8f2X]{Crowbar}.", [{fist: true, img: "systems/pf2e/icons/features/classes/powerful-fist.webp", key: "Strike"}, {itemId: "xxxxxxFISTxxxxxx", key: "ItemAlteration", mode: "remove", property: "traits", value: "nonlethal"}]),
     Ability.lesserInnateEffect("Mote of Luck", "Once per day, when you roll a flat check and the result is a 4, you may reroll that flat check. This is a Fortune effect.", []),
@@ -41,22 +42,21 @@ export const l1LesserInnateEffect = [
     Ability.lesserInnateEffect("Marshstrider", "You ignore difficult terrain from shallow water, mud or marshland, as long as it is not too deep for you to stand with your head above the surface.", []),
     Ability.lesserInnateEffect("Danger Aversion", "When you Avert Gaze, you can gain the +2 circumstance bonus against your choice of auditory or olfactory effects instead of visual. @UUID[Compendium.pf2e-aeon-stone-tinkering.pf2e-aeon-stone-tinkering-items.Item.GtODeEPTVeSpU6t0]{Effect: Danger Aversion}", []),
     //@ts-ignore
-    Ability.lesserInnateEffect("Respiratory Response", "While Sickened, instead of a status penalty, the Sickened condition grants you a status bonus to fortitude saves against olfactory or inhaled effects.", [{"key":"AdjustModifier","mode":"multiply","selector":"fortitude","predicate":[{"or":["item:trait:olfactory","item:trait:inhaled"]}],"slug":"sickened","value":-1}]),
+    Ability.lesserInnateEffect("Respiratory Response", "While Sickened, instead of a status penalty, the Sickened condition grants you a status bonus to fortitude saves against olfactory or inhaled effects.", [{"key":"AdjustModifier","mode":"multiply","selector":"fortitude","predicate":[{"or":["item:trait:olfactory","item:trait:inhaled"]}],"slug":"sickened","value":-1}]), //
     Ability.lesserInnateEffect("Self-Moisturization", "You constantly draw in moisture from the air around you. You do not need to drink.", []),
     Ability.lesserInnateEffect("Gravitational Rappel", "You can @UUID[Compendium.pf2e.actionspf2e.Item.3yoajuKjwHZ9ApUY]{Grab an Edge} while your hands are occupied. After doing so, for one round you can @UUID[Compendium.pf2e.actionspf2e.Item.pprgrYQ1QnIDGZiy]{Climb} to pull yourself up onto a ledge while your hands are occupied.", []),
-    Ability.lesserInnateEffect("Repulsion", "Once per day, when an enemy escapes from your Grapple, you may @UUID[Compendium.pf2e.actionspf2e.Item.7blmbDrQFNfdT731]{Shove} that enemy as a reaction.", []),
+    Ability.lesserInnateEffect("Repulsion", "Once per day, when an enemy escapes from your Grapple, you may @UUID[Compendium.pf2e.actionspf2e.Item.7blmbDrQFNfdT731]{Shove} that enemy as a reaction.", []), //
     Ability.lesserInnateEffect("Targeting Assist", "Once per day, when you make a flat check to target a @UUID[Compendium.pf2e.conditionitems.Item.DmAIPqOBomZ7H95W]{Concealed} or @UUID[Compendium.pf2e.conditionitems.Item.iU0fEDdBp3rXpTMC]{Hidden} creature, reduce the DC of that flat check by 5.", []),
-    Ability.lesserInnateEffect("Taste Enhancer", "Once per day, when an elixir or potion restores hit points to you, it restores an additional [[/r 10]] hit points.", []),
 ]
 
 export const l1LesserEquipmentBond = [
-    Ability.lesserEquipmentBond("Potency Surge", "Once per day, as part of a Strike, you may grant the weapon you are using for that Strike the effect of a Potency Crystal of a level no higher than that of this item. @UUID[Compendium.pf2e.equipment-effects.Item.R5ugeFK3MPwkbv0s]{Effect: Potency Crystal}", []),
+    Ability.lesserEquipmentBond("Potency Surge", "Once per day, as part of a Strike, you may grant the weapon you are using for that Strike the effect of a Potency Crystal of a level no higher than that of this item. @UUID[Compendium.pf2e.equipment-effects.Item.R5ugeFK3MPwkbv0s]{Effect: Potency Crystal}", []), //
     Ability.lesserEquipmentBond("Grievous Strike", "Once per day, when you critically succeed at a Strike attack roll, your attack gains the critical specialization effect of the weapon or unarmed attack.", []),
     Ability.lesserEquipmentBond("Hard Drop", "Once per day, when you @UUID[Compendium.pf2e.actionspf2e.Item.ge56Lu1xXVFYUnLP]{Trip} an enemy, you may deal @Damage[(@actor.abilities.str.mod)[bludgeoning]]{bludgeoning damage} equal to your Strength to the enemy.", []),
     Ability.lesserEquipmentBond("Timely Escape", "Once per day, when you @UUID[Compendium.pf2e.actionspf2e.Item.XMcnh4cSI32tljXa]{Hide}, you may immediately @UUID[Compendium.pf2e.actionspf2e.Item.VMozDqMMuK5kpoX4]{Sneak} using the same stealth check.", []),
-    Ability.lesserEquipmentBond("Medical Stopgap", "Once per day, when you critically fail at a check to @UUID[Compendium.pf2e.actionspf2e.Item.1kGNdIIhuglAjIp9]{Treat Wounds}, you get a failure instead.", []),
+    Ability.lesserEquipmentBond("Medical Stopgap", "Once per day, when you critically fail at a check to @UUID[Compendium.pf2e.actionspf2e.Item.1kGNdIIhuglAjIp9]{Treat Wounds}, you get a failure instead.", []), //
     Ability.lesserEquipmentBond("Emergency Shield", "Once per day, you may use the @UUID[Compendium.pf2e.feats-srd.Item.jM72TjJ965jocBV8]{Shield Block} reaction, even if you do not have the prerequisite feat. If you do have the Shield Block general feat, you may once per day use it to reduce damage of any type, not just bludgeoning, piercing or slashing.", []),
-    Ability.lesserEquipmentBond("Blunt Weapon", "Once per day, as a free action, you may grant a weapon you are wielding the Versatile: Bludgeoning trait for 1 minute.", []),
+    Ability.lesserEquipmentBond("Blunt Weapon", "Once per day, as a free action, you may grant a weapon you are wielding the Versatile: Bludgeoning trait for 1 minute.", []), //
     Ability.lesserEquipmentBond("Sharpen Edge", "Once per day, as a free action, you may grant a weapon you are wielding the Versatile: Slashing trait for 1 minute.", []),
     Ability.lesserEquipmentBond("Use Pointy End", "Once per day, as a free action, you may grant a weapon you are wielding the Versatile: Piercing trait for 1 minute.", []),
     Ability.lesserEquipmentBond("Weightless Armor", "Once per day, as a free action, you may reduce the speed penalty of your armor by 5 feet until the end of your turn. This reduction is in addition to the one you might get for meeting the armor's strength requirement.", []),
@@ -67,12 +67,12 @@ export const l1LesserEquipmentBond = [
 ]
 
 export const l1EnergySubstitution = [
-    Ability.energySubstitution("acid"),
+    Ability.energySubstitution("poison"), //
+    Ability.energySubstitution("acid"), //
     Ability.energySubstitution("cold"),
     Ability.energySubstitution("electricity"),
-    Ability.energySubstitution("fire"),
+    Ability.energySubstitution("fire"), //
     Ability.energySubstitution("mental"),
-    Ability.energySubstitution("poison"),
     Ability.energySubstitution("sonic"),
     Ability.energySubstitution("vitality"),
     Ability.energySubstitution("void"),

@@ -122,5 +122,7 @@ export async function createMolds(compendium: string, folder: string): Promise<v
 }
 
 export async function createImpurities(compendium: string, folder: string): Promise<void> {
-    await Impurity.fromDefaults(1, "example", [l1LesserSpell[0], l1LesserInnateEffect[0], l1LesserEquipmentBond[0], l1EnergySubstitution[0]]).toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Sodium Chloride", [l1LesserSpell[6], l1LesserInnateEffect[0], l1LesserEquipmentBond[6], l1EnergySubstitution[0]]).toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Acetic Acid", [l1LesserSpell[18], l1LesserInnateEffect[8], l1LesserEquipmentBond[4], l1EnergySubstitution[1]]).toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Ethanol", [l1LesserSpell[17], l1LesserInnateEffect[11], l1LesserEquipmentBond[0], l1EnergySubstitution[4]]).toItem(compendium, folder);
 }
