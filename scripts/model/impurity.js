@@ -1,3 +1,4 @@
+import { Ability } from "./ability.js";
 import { impurityPrice } from "../data/data.js";
 export class Impurity {
     level;
@@ -37,7 +38,8 @@ export class Impurity {
         const text = item.description;
         const price = item.system.price.value.goldValue;
         const imgPath = item.img;
-        const abilities = item.getFlag("pf2e-aeon-stone-tinkering", "abilities");
+        const rawAbilities = item.getFlag("pf2e-aeon-stone-tinkering", "abilities");
+        const abilities = rawAbilities.map(Ability.fromRaw);
         return new Impurity(level, name, text, price, abilities, imgPath);
     }
     async toItem(compendiumId, folderId, actorId) {

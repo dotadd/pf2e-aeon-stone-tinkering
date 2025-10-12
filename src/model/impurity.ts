@@ -1,5 +1,5 @@
 import { EquipmentPF2e } from "foundry-pf2e";
-import { Ability } from "./ability.js";
+import { Ability, RawAbility } from "./ability.js";
 import { impurityPrice } from "../data/data.js";
 
 
@@ -43,7 +43,8 @@ export class Impurity {
         const price = item.system.price.value.goldValue;
         const imgPath = item.img;
 
-        const abilities = item.getFlag("pf2e-aeon-stone-tinkering", "abilities") as Array<Ability>;
+        const rawAbilities = item.getFlag("pf2e-aeon-stone-tinkering", "abilities") as Array<RawAbility>;
+        const abilities = rawAbilities.map(Ability.fromRaw);
 
         return new Impurity(level, name, text, price, abilities, imgPath)
     }

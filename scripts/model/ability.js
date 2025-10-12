@@ -32,6 +32,9 @@ export class Ability {
         this.text = text;
         this.rulesElements = rulesElements;
     }
+    static fromRaw(rawAbility) {
+        return new Ability(rawAbility.category, rawAbility.name, rawAbility.text, rawAbility.rulesElements);
+    }
     scale(level) {
         const dc = itemDcByLevel[level - 1];
         const itemBonus = itemBonusByLevel[level - 1];
@@ -42,7 +45,7 @@ export class Ability {
             for (let i = 0; i < this.rulesElements.length; i++) {
                 if (this.rulesElements[i].key === "FlatModifier") {
                     //@ts-ignore
-                    ability.rulesElements[i].value = itemBonus;
+                    this.rulesElements[i].value = itemBonus;
                 }
             }
         }
@@ -52,7 +55,7 @@ export class Ability {
             for (let i = 0; i < this.rulesElements.length; i++) {
                 if (this.rulesElements[i].key === "Resistance") {
                     //@ts-ignore
-                    ability.rulesElements[i].value = resistance;
+                    this.rulesElements[i].value = resistance;
                 }
             }
         }

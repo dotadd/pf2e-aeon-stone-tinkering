@@ -1,5 +1,5 @@
-import { createAeonStone } from "./createAeonStoneDialog.js";
-import { createComponents, createImpurities, createLattices, createMolds } from "./createCompendiumItems.js";
+import { createAeonStone, getComponents, pickComponents } from "./createAeonStoneDialog.js";
+import { createComponents, createImpurities, createLattices, createMolds, getCreationContext } from "./createCompendiumItems.js";
 import { AbilityCategory, Ability } from "./model/ability.js";
 import { AeonStone } from "./model/aeonStone.js";
 import { Impurity } from "./model/impurity.js";
@@ -19,7 +19,10 @@ Hooks.once("init", () => {
         createMolds,
         createImpurities,
         createComponents,
+        getCreationContext,
         createAeonStone,
+        getComponents,
+        pickComponents,
     };
 });
 //# sourceMappingURL=main.js.map

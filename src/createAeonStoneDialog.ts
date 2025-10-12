@@ -8,7 +8,7 @@ import { AeonStone } from "./model/aeonStone.js";
 export async function createAeonStone(): Promise<void> {
     const components = await getComponents();
     const pickedComponents = pickComponents(components.lattices, components.molds, components.impurities);
-    AeonStone.fromComponents(pickedComponents.mold, pickedComponents.lattice, pickedComponents.impurities).toItem();
+    await AeonStone.fromComponents(pickedComponents.mold, pickedComponents.lattice, pickedComponents.impurities).toItem();
 }
 
 export async function getComponents(compendium: string = "pf2e-aeon-stone-tinkering.pf2e-aeon-stone-tinkering-items"): Promise<{lattices: Array<Lattice>, molds: Array<Mold>, impurities: Array<Impurity>}> {

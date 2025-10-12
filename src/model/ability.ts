@@ -23,6 +23,14 @@ export enum AbilityCategory {
     rush = "Rush",
 }
 
+
+export interface RawAbility {
+    category: AbilityCategory,
+    name: string,
+    text: string,
+    rulesElements: Array<RuleElementSource>,
+}
+
 export class Ability {
     constructor(
         public category: AbilityCategory,
@@ -30,6 +38,10 @@ export class Ability {
         public text: string,
         public rulesElements: Array<RuleElementSource>,
     ) {}
+
+    public static fromRaw(rawAbility: RawAbility): Ability {
+        return new Ability(rawAbility.category, rawAbility.name, rawAbility.text, rawAbility.rulesElements);
+    }
 
     public scale(level: number): Ability {
         const dc = itemDcByLevel[level-1];
@@ -42,7 +54,7 @@ export class Ability {
             for (let i = 0; i < this.rulesElements.length; i++) {
                 if (this.rulesElements[i].key === "FlatModifier") {
                     //@ts-ignore
-                    ability.rulesElements[i].value = itemBonus;
+                    this.rulesElements[i].value = itemBonus;
                 }
             }
         }
@@ -53,7 +65,7 @@ export class Ability {
             for (let i = 0; i < this.rulesElements.length; i++) {
                 if (this.rulesElements[i].key === "Resistance") {
                     //@ts-ignore
-                    ability.rulesElements[i].value = resistance;
+                    this.rulesElements[i].value = resistance;
                 }
             }
         }

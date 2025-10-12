@@ -1,5 +1,5 @@
-import { createAeonStone } from "./createAeonStoneDialog.js";
-import { createComponents, createImpurities, createLattices, createMolds } from "./createCompendiumItems.js";
+import { createAeonStone, getComponents, pickComponents } from "./createAeonStoneDialog.js";
+import { createComponents, createImpurities, createLattices, createMolds, getCreationContext } from "./createCompendiumItems.js";
 import { AbilityCategory, Ability } from "./model/ability.js";
 import { AeonStone } from "./model/aeonStone.js";
 import { Impurity } from "./model/impurity.js";
@@ -21,7 +21,10 @@ declare module "fvtt-types/configuration" {
         createMolds: typeof createMolds,
         createImpurities: typeof createImpurities,
         createComponents: typeof createComponents,
+        getCreationContext: typeof getCreationContext,
         createAeonStone: typeof createAeonStone,
+        getComponents: typeof getComponents,
+        pickComponents: typeof pickComponents,
       }
     }
   }
@@ -44,6 +47,9 @@ Hooks.once("init", ()=> {
     createMolds,
     createImpurities,
     createComponents,
+    getCreationContext,
     createAeonStone,
+    getComponents,
+    pickComponents,
   }
 });
