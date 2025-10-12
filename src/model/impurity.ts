@@ -18,7 +18,7 @@ export class Impurity {
     }
 
     public static formatImpurityText(name: string, abilities: Array<Ability>): string {
-        const header = `<p>When used as a component in Aeon Stone Tinkering, ${name} can grant the following abilities to the resulting Experimental Aeon Stone.</p>`;
+        const header = `<p>When used as a component in Aeon Stone Tinkering, ${name} can grant the following abilities to the resulting Experimental Aeon Stone.</p><hr/>`;
         const abilityTexts: Array<string> = abilities.map(ability => ability.formatAbilityText());
 
         return header.concat(abilityTexts.join("<hr/>"));

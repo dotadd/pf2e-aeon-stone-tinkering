@@ -1,33 +1,31 @@
-import { impurityPrice } from "../data/numberTables.js";
+import { impurityPrice } from "../data/data.js";
 export class Impurity {
     level;
     name;
     text;
     price;
     abilities;
-    constructor(level, name, text, price, abilities) {
+    imgPath;
+    constructor(level, name, text, price, abilities, imgPath) {
         this.level = level;
         this.name = name;
         this.text = text;
         this.price = price;
         this.abilities = abilities;
+        this.imgPath = imgPath;
         if (abilities.length < 1) {
             throw new Error("Impurity without abilities.");
         }
     }
     static formatImpurityText(name, abilities) {
-        const header = `<p>When used as a component in Aeon Stone Tinkering, ${name} can grant the following abilities to the resulting Experimental Aeon Stone.</p>`;
-        let abilityTexts = [];
-        for (let ability of abilities) {
-            let abilityText = `<p><strong>${ability.category}</strong> ${ability.text}</p>`;
-            abilityTexts.push(abilityText);
-        }
-        return header.concat(abilityTexts.join(""));
+        const header = `<p>When used as a component in Aeon Stone Tinkering, ${name} can grant the following abilities to the resulting Experimental Aeon Stone.</p><hr/>`;
+        const abilityTexts = abilities.map(ability => ability.formatAbilityText());
+        return header.concat(abilityTexts.join("<hr/>"));
     }
-    static fromDefaults(level, name, abilities) {
+    static fromDefaults(level, name, abilities, imgPath = "systems/pf2e/icons/equipment/consumables/other-consumables/camp-shroud.webp") {
         const text = Impurity.formatImpurityText(name, abilities);
         const price = impurityPrice[level - 1];
-        return new Impurity(level, name, text, price, abilities);
+        return new Impurity(level, name, text, price, abilities, imgPath);
     }
     static fromItem(item) {
         //@ts-ignore
@@ -38,14 +36,22 @@ export class Impurity {
         const name = item.name;
         const text = item.description;
         const price = item.system.price.value.goldValue;
+        const imgPath = item.img;
         const abilities = item.getFlag("pf2e-aeon-stone-tinkering", "abilities");
-        return new Impurity(level, name, text, price, abilities);
+        return new Impurity(level, name, text, price, abilities, imgPath);
     }
-    async toItem() {
-        await Item.create({
+    async toItem(compendiumId, folderId, actorId) {
+        // handle nonsense cases
+        if (folderId && actorId) {
+            throw new Error("Cannot create item both in folder and on actor.");
+        }
+        if (compendiumId && actorId) {
+            throw new Error("Cannot create item both in compendium and on actor.");
+        }
+        const createData = {
             name: this.name,
             type: "equipment",
-            img: "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-western-star.webp",
+            img: this.imgPath,
             system: {
                 description: {
                     value: this.text
@@ -100,8 +106,19 @@ export class Impurity {
                 "pf2e-aeon-stone-tinkering": {
                     abilities: this.abilities
                 }
-            }
-        });
+            },
+            folder: folderId
+        };
+        if (compendiumId) {
+            await Item.create(createData, { pack: compendiumId });
+        }
+        else if (actorId) {
+            const parent = game.actors.get(actorId);
+            await Item.create(createData, { parent: parent });
+        }
+        else {
+            await Item.create(createData);
+        }
     }
 }
 //# sourceMappingURL=impurity.js.map

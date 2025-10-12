@@ -1,14 +1,18 @@
-import { itemBonusByLevel, itemDcByLevel, latticePrice } from "../data/numberTables.js";
+import { itemBonusByLevel, itemDcByLevel, latticePrice } from "../data/data.js";
 export class Lattice {
     level;
     name;
     text;
     price;
-    constructor(level, name, text, price) {
+    color;
+    imgPath;
+    constructor(level, name, text, price, color, imgPath) {
         this.level = level;
         this.name = name;
         this.text = text;
         this.price = price;
+        this.color = color;
+        this.imgPath = imgPath;
     }
     static formatLatticeText(level, name) {
         const spellRank = Math.ceil(level / 2);
@@ -21,10 +25,10 @@ export class Lattice {
             `<p>The resulting Experimental Aeon Stone will have a level of ${level}. Any non-cantrip spells will be heightened to rank ${spellRank}. ` +
             `Any item bonuses granted will be +${itemBonus}. Any save DCs will be ${dc}.</p>`;
     }
-    static fromDefaults(level, name) {
+    static fromDefaults(level, name, color, imgPath = "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp") {
         const text = this.formatLatticeText(level, name);
         const price = latticePrice[level - 1];
-        return new Lattice(level, name, text, price);
+        return new Lattice(level, name, text, price, color, imgPath);
     }
     static fromItem(item) {
         //@ts-ignore
@@ -35,13 +39,25 @@ export class Lattice {
         const name = item.name;
         const text = item.description;
         const price = item.system.price.value.goldValue;
-        return new Lattice(level, name, text, price);
+        const color = item.getFlag("pf2e-aeon-stone-tinkering", "color");
+        const imgPath = item.img;
+        if (!color) {
+            throw new Error("Lattice without color.");
+        }
+        return new Lattice(level, name, text, price, color, imgPath);
     }
-    async toItem() {
-        await Item.create({
+    async toItem(compendiumId, folderId, actorId) {
+        // handle nonsense cases
+        if (folderId && actorId) {
+            throw new Error("Cannot create item both in folder and on actor.");
+        }
+        if (compendiumId && actorId) {
+            throw new Error("Cannot create item both in compendium and on actor.");
+        }
+        const createData = {
             name: this.name,
             type: "equipment",
-            img: "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-tourmaline-sphere.webp",
+            img: this.imgPath,
             system: {
                 description: {
                     value: this.text
@@ -91,8 +107,24 @@ export class Lattice {
                     license: "ORC",
                     remaster: true
                 }
-            }
-        });
+            },
+            flags: {
+                "pf2e-aeon-stone-tinkering": {
+                    color: this.color
+                }
+            },
+            folder: folderId
+        };
+        if (compendiumId) {
+            await Item.create(createData, { pack: compendiumId });
+        }
+        else if (actorId) {
+            const parent = game.actors.get(actorId);
+            await Item.create(createData, { parent: parent });
+        }
+        else {
+            await Item.create(createData);
+        }
     }
 }
 //# sourceMappingURL=lattice.js.map

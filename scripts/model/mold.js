@@ -1,4 +1,4 @@
-import { moldPrice } from "../data/numberTables.js";
+import { moldPrice } from "../data/data.js";
 export class Mold {
     level;
     name;
@@ -6,13 +6,17 @@ export class Mold {
     price;
     regularAbilities;
     resonantAbilities;
-    constructor(level, name, text, price, regularAbilities, resonantAbilities) {
+    shape;
+    imgPath;
+    constructor(level, name, text, price, regularAbilities, resonantAbilities, shape, imgPath) {
         this.level = level;
         this.name = name;
         this.text = text;
         this.price = price;
         this.regularAbilities = regularAbilities;
         this.resonantAbilities = resonantAbilities;
+        this.shape = shape;
+        this.imgPath = imgPath;
         if (regularAbilities.length < 1 || resonantAbilities.length < 1) {
             throw new Error("Mold without regular or resonant abilities.");
         }
@@ -23,10 +27,10 @@ export class Mold {
         const resonantText = `<p><strong>Invested and placed in a Wayfinder</strong> ${resonantAbilities.join(", ")}</p>`;
         return header + regularText + resonantText;
     }
-    static fromDefaults(level, name, regularAbilities, resonantAbilities) {
+    static fromDefaults(level, name, regularAbilities, resonantAbilities, shape, imgPath = "systems/pf2e/icons/equipment/worn-items/other-worn-items/taletellers-ring.webp") {
         const price = moldPrice[level - 1];
         const text = Mold.formatMoldText(regularAbilities, resonantAbilities);
-        return new Mold(level, name, text, price, regularAbilities, resonantAbilities);
+        return new Mold(level, name, text, price, regularAbilities, resonantAbilities, shape, imgPath);
     }
     static fromItem(item) {
         //@ts-ignore
@@ -37,18 +41,30 @@ export class Mold {
         const name = item.name;
         const text = item.description;
         const price = item.system.price.value.goldValue;
+        const imgPath = item.img;
         const regularAbilities = item.getFlag("pf2e-aeon-stone-tinkering", "regularAbilities");
         const resonantAbilities = item.getFlag("pf2e-aeon-stone-tinkering", "resonantAbilities");
         if ((regularAbilities.length + resonantAbilities.length) < 1) {
             throw new Error("Mold without ability categories.");
         }
-        return new Mold(level, name, text, price, regularAbilities, resonantAbilities);
+        const shape = item.getFlag("pf2e-aeon-stone-tinkering", "shape");
+        if (!shape) {
+            throw new Error("Mold without shape.");
+        }
+        return new Mold(level, name, text, price, regularAbilities, resonantAbilities, shape, imgPath);
     }
-    async toItem() {
-        await Item.create({
+    async toItem(compendiumId, folderId, actorId) {
+        // handle nonsense cases
+        if (folderId && actorId) {
+            throw new Error("Cannot create item both in folder and on actor.");
+        }
+        if (compendiumId && actorId) {
+            throw new Error("Cannot create item both in compendium and on actor.");
+        }
+        const createData = {
             name: this.name,
             type: "equipment",
-            img: "systems/pf2e/icons/equipment/worn-items/other-worn-items/taletellers-ring.webp",
+            img: this.imgPath,
             system: {
                 description: {
                     value: this.text
@@ -102,10 +118,22 @@ export class Mold {
             flags: {
                 "pf2e-aeon-stone-tinkering": {
                     regularAbilities: this.regularAbilities,
-                    resonantAbilities: this.resonantAbilities
+                    resonantAbilities: this.resonantAbilities,
+                    shape: this.shape
                 }
-            }
-        });
+            },
+            folder: folderId
+        };
+        if (compendiumId) {
+            await Item.create(createData, { pack: compendiumId });
+        }
+        else if (actorId) {
+            const parent = game.actors.get(actorId);
+            await Item.create(createData, { parent: parent });
+        }
+        else {
+            await Item.create(createData);
+        }
     }
 }
 //# sourceMappingURL=mold.js.map
