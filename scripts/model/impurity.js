@@ -42,12 +42,12 @@ export class Impurity {
         const abilities = rawAbilities.map(Ability.fromRaw);
         return new Impurity(level, name, text, price, abilities, imgPath);
     }
-    async toItem(compendiumId, folderId, actorId) {
+    async toItem(compendiumId, folderId, actor) {
         // handle nonsense cases
-        if (folderId && actorId) {
+        if (folderId && actor) {
             throw new Error("Cannot create item both in folder and on actor.");
         }
-        if (compendiumId && actorId) {
+        if (compendiumId && actor) {
             throw new Error("Cannot create item both in compendium and on actor.");
         }
         const createData = {
@@ -91,7 +91,7 @@ export class Impurity {
                         img: "systems/pf2e/icons/unidentified_item_icons/adventuring_gear.webp",
                         data: {
                             description: {
-                                "value": ""
+                                "value": "A component used in the creation of Experimental Aeon Stone Stones. For what purpose, is unclear."
                             }
                         }
                     },
@@ -114,9 +114,8 @@ export class Impurity {
         if (compendiumId) {
             await Item.create(createData, { pack: compendiumId });
         }
-        else if (actorId) {
-            const parent = game.actors.get(actorId);
-            await Item.create(createData, { parent: parent });
+        else if (actor) {
+            await Item.create(createData, { parent: actor });
         }
         else {
             await Item.create(createData);

@@ -1,4 +1,4 @@
-import { EquipmentPF2e } from "foundry-pf2e";
+import { ActorPF2e, EquipmentPF2e } from "foundry-pf2e";
 import { Impurity } from "./model/impurity.js";
 import { Lattice } from "./model/lattice.js";
 import { Mold } from "./model/mold.js";
@@ -7,9 +7,25 @@ import { AbilityCategory } from "./model/ability.js";
 
 
 export async function createAeonStone(): Promise<void> {
+    const actorId = getSelectedActorId();
     const components = await getComponents();
-    const pickedComponents = await queryForComponents(components.lattices, components.molds, components.impurities);
-    await AeonStone.fromComponents(pickedComponents.mold, pickedComponents.lattice, pickedComponents.impurities).toItem();
+    let pickedComponents;
+
+    try {
+        pickedComponents = await queryForComponents(components.lattices, components.molds, components.impurities);
+    } catch (error) {
+        console.log("Did not create Aeon Stone due to error with user input:")
+        console.log(error);
+        return;
+    }
+    
+    const aeonStone = AeonStone.fromComponents(pickedComponents.mold, pickedComponents.lattice, pickedComponents.impurities);
+
+    if (actorId) {
+        await aeonStone.toItem(undefined, undefined, actorId);
+    } else {
+        await aeonStone.toItem();
+    }
 }
 
 export async function getComponents(compendium: string = "pf2e-aeon-stone-tinkering.pf2e-aeon-stone-tinkering-items"): Promise<{lattices: Array<Lattice>, molds: Array<Mold>, impurities: Array<Impurity>}> {
@@ -137,6 +153,14 @@ export async function queryForLatticeAndMold(lattices: Array<Lattice>, molds: Ar
         ok: [{label: "Next"}]
     })
 
+    if (!data) {
+        throw new Error("No data received from user input.")
+    }
+
+    if (!data.lattice || !data.mold) {
+        throw new Error("Malformed data received from user input.")
+    }
+
     const latticeChosenName = data.lattice
     const moldChosenName = data.mold
 
@@ -183,9 +207,17 @@ export async function queryForImpurities(impurities: Array<Impurity>, abilityCat
         ok: [{label: "Create"}]
     })
 
+    if (!data) {
+        throw new Error("No data received from user input.")
+    }
+
     let impuritiesChosen = [];
 
     for (let i = 0; i < abilityCategories.length; i++) {
+        if (!data["impurity" + i]) {
+            throw new Error("Malformed data received from user input.")
+        }
+
         let impurityName = data["impurity" + i];
         
         if (!impurityName) {
@@ -200,4 +232,23 @@ export async function queryForImpurities(impurities: Array<Impurity>, abilityCat
     }
 
     return impuritiesChosen;
+}
+
+export function getSelectedActorId(): ActorPF2e | null {
+    const tokensControlled = canvas.tokens.controlled;
+    if (!tokensControlled) {
+        return null;
+    }
+    if (tokensControlled.length !== 1) {
+        return null;
+    }
+    const tokenControlled = tokensControlled[0]
+    if (!tokenControlled.actor) {
+        return null;
+    }
+    const actor = tokenControlled.actor;
+    if (!(["character", "npc", "loot", "party"].includes(actor.type))) {
+        return null;
+    }
+    return actor;
 }

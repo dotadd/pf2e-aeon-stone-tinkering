@@ -123,7 +123,66 @@ export async function createMolds(compendium: string, folder: string): Promise<v
 }
 
 export async function createImpurities(compendium: string, folder: string): Promise<void> {
-    await Impurity.fromDefaults(1, "Sodium Chloride", [l1LesserSpell[6], l1LesserInnateEffect[0], l1LesserEquipmentBond[6], l1EnergySubstitution[0]], "systems/pf2e/icons/equipment/consumables/oils/aligned-oil.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Rock Salt", [l1LesserSpell[6], l1LesserInnateEffect[0], l1LesserEquipmentBond[6], l1EnergySubstitution[0]], "systems/pf2e/icons/equipment/consumables/oils/aligned-oil.webp").toItem(compendium, folder);
     await Impurity.fromDefaults(1, "Acetic Acid", [l1LesserSpell[18], l1LesserInnateEffect[8], l1LesserEquipmentBond[4], l1EnergySubstitution[1]], "systems/pf2e/icons/equipment/consumables/oils/nectar-of-purification.webp").toItem(compendium, folder);
-    await Impurity.fromDefaults(1, "Ethanol", [l1LesserSpell[17], l1LesserInnateEffect[11], l1LesserEquipmentBond[0], l1EnergySubstitution[4]], "systems/pf2e/icons/equipment/consumables/other-consumables/black-powder-keg.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Aqua Vitae", [l1LesserSpell[17], l1LesserInnateEffect[11], l1LesserEquipmentBond[0], l1EnergySubstitution[4]], "systems/pf2e/icons/equipment/consumables/other-consumables/black-powder-keg.webp").toItem(compendium, folder);
+
+    // temp stuff below
+    await Impurity.fromDefaults(1, "Orange Crystal", [], "systems/pf2e/icons/equipment/worn-items/other-worn-items/fleshgem-earthspeaker.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Weird Flax", [], "systems/pf2e/icons/equipment/worn-items/other-worn-items/wig-of-holding.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Pink Jelly", [], "systems/pf2e/icons/equipment/worn-items/other-worn-items/aeon-stone-pink-rhomboid.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Silver Laurel", [], "systems/pf2e/icons/equipment/worn-items/apex-items/circlet-of-persuasion.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Wax", [], "systems/pf2e/icons/equipment/adventuring-gear/candle.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Porous Limestone", [], "systems/pf2e/icons/equipment/adventuring-gear/chalk.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Flint", [], "systems/pf2e/icons/equipment/adventuring-gear/flint-and-steel.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Oil", [], "systems/pf2e/icons/equipment/adventuring-gear/oil.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Soap", [], "systems/pf2e/icons/equipment/adventuring-gear/soap.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Starfish Mucus", [], "systems/pf2e/icons/equipment/adventuring-gear/jellyfish-lamp.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Holly", [], "systems/pf2e/icons/equipment/adventuring-gear/holly-and-mistletoe.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Fire Snot", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-bombs/redpitch-bomb.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Shiny Rock", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-bombs/thunderstone.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Poison Juice", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-bombs/acid-flask.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Mystery Powder", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-bombs/tanglefoot-bag.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Hole Potion", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-elixirs/malleable-mixture.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Highly Reactive Metal", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-elixirs/quicksilver-mutagen.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Extra Spicy Sauce", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-elixirs/lastwall-soup.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Espresso", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-elixirs/prey-mutagen.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Rectangular Potion", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-elixirs/leapers-elixir.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Fluffy Grey Spores", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-poisons/addlebrain.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Red Powder", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-poisons/mage-bane.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Fleshy Pellets", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-poisons/leadenleg.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Purple Goop", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-poisons/cytillesh-oil.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Quicksilver", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-poisons/isolation-draught.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Tar", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-poisons/lifeblight-residue.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Smelly Green Stuff", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-poisons/lich-dust.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Orange Goop", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-poisons/lethargy-poison.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Salsa", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-tapas/dragons-blood-pudding.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Teal Salve", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-tools/body-recovery-kit.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Green Pearl", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-tools/metalmist-sphere.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Dried Ashleaf", [], "systems/pf2e/icons/equipment/alchemical-items/drugs/refined-pesh.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Purple Mushroom", [], "systems/pf2e/icons/equipment/alchemical-items/drugs/cytillesh.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Black Vortex Bead", [], "systems/pf2e/icons/equipment/artifacts/sphere-of-annihilation.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Black Wax", [], "systems/pf2e/icons/equipment/consumables/other-consumables/candle-of-revealing.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Phoenix Down", [], "systems/pf2e/icons/equipment/consumables/talismans/balisse-feather.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Eye Gem", [], "systems/pf2e/icons/equipment/consumables/talismans/eye-of-apprehension.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Drake Scale", [], "systems/pf2e/icons/equipment/consumables/other-consumables/bubbling-scale.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Sad Rose", [], "systems/pf2e/icons/equipment/cursed-items/rose-of-loves-lost.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Tiny Rune Beads", [], "systems/pf2e/icons/equipment/held-items/holy-prayer-beads.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Earth Scamp Curses", [], "systems/pf2e/icons/equipment/worn-items/companion-items/hosteling-statuette.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Djezet (Orange Stone)", [], "systems/pf2e/icons/equipment/materials/djezet-mass.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Adamantine Mess", [], "systems/pf2e/icons/equipment/materials/adamantine-chunk.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Vine Gem", [], "systems/pf2e/icons/equipment/treasure/gems/greater-precious-stones/star-sapphire.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Shell", [], "systems/pf2e/icons/equipment/treasure/gems/lesser-semiprecious-stones/shell.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Seedpod", [], "systems/pf2e/icons/equipment/structures/gourd-home.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Confetti", [], "systems/pf2e/icons/equipment/snares/glittering-snare-effect.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Lightning Juice", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-bombs/bottled-lightning.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Some flat-gold liquid", [], "systems/pf2e/icons/equipment/adventuring-gear/cookware.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Hypnotioc Candy", [], "systems/pf2e/icons/equipment/alchemical-items/drugs/grolna.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Skeleton Tears", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-bombs/dread-ampoule.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Green Ghost Rock", [], "systems/pf2e/icons/equipment/materials/abysium-chunk.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Darkwood Shavings", [], "systems/pf2e/icons/equipment/materials/darkwood-lumber.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Black Nobbly Thing", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-poisons/mindfog-mist.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Black Tongue Thing", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-poisons/black-smear-poison.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Microscopic Snowglobe", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-bombs/alignment-ampoule.webp").toItem(compendium, folder);
+    await Impurity.fromDefaults(1, "Super Saiyan Juice", [], "systems/pf2e/icons/equipment/alchemical-items/alchemical-bombs/bottled-sunlight.webp").toItem(compendium, folder);
 }
