@@ -112,13 +112,13 @@ export class Impurity {
             folder: folderId
         };
         if (compendiumId) {
-            await Item.create(createData, { pack: compendiumId });
+            return await Item.create(createData, { pack: compendiumId });
         }
         else if (actor) {
-            await Item.create(createData, { parent: actor });
+            return await Item.create(createData, { parent: actor });
         }
         else {
-            await Item.create(createData);
+            return await Item.create(createData);
         }
     }
 }

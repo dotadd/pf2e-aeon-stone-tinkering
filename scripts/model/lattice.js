@@ -47,7 +47,7 @@ export class Lattice {
         return new Lattice(level, name, text, price, color, imgPath);
     }
     async toItem(compendiumId, folderId, actor) {
-        // handle nonsense cases
+        // handle nonsense cases<
         if (folderId && actor) {
             throw new Error("Cannot create item both in folder and on actor.");
         }
@@ -116,13 +116,13 @@ export class Lattice {
             folder: folderId
         };
         if (compendiumId) {
-            await Item.create(createData, { pack: compendiumId });
+            return await Item.create(createData, { pack: compendiumId });
         }
         else if (actor) {
-            await Item.create(createData, { parent: actor });
+            return await Item.create(createData, { parent: actor });
         }
         else {
-            await Item.create(createData);
+            return await Item.create(createData);
         }
     }
 }

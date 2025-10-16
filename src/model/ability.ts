@@ -94,7 +94,7 @@ export class Ability {
     }
     public static energySubstitution(energyType: string): Ability {
         const name = `${energyType.charAt(0).toUpperCase()}${energyType.slice(1)} Substitution`;
-        const text = `Once per hour, when you Cast a Spell or use an action that deals energy damage, you may replace the damage type of that action with ${energyType}.`;
+        const text = `Once per hour, when you Cast a Spell or use an action that deals energy damage, you may replace that energy damage with ${energyType} damage.`;
         return new Ability(AbilityCategory.energySubstitution, name, text, []);
     }
     public static spell(spellLink: string, tradition: string): Ability {
@@ -104,7 +104,7 @@ export class Ability {
     }
     public static martialTalent(featLink: string): Ability {
         const name = featLink.replace(/@UUID\[.*\]\{(.*)\}/, "$1");
-        const text = `Once per day, at the start of your turn, you may gain the benefits of the ${featLink} feat for one round. You ignore all prerequisites of that feat and it gains the trait of your class instead of any other class traits.`;
+        const text = `Once per hour, at the start of your turn, you may gain the benefits of the ${featLink} feat for one round. You ignore all prerequisites of that feat and it gains the trait of your class instead of any other class traits.`;
         return new Ability(AbilityCategory.martialTalent, name, text, []);
     }
     public static alchemicalInfusion(itemLink: string): Ability {

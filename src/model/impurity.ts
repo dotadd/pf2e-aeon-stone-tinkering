@@ -49,7 +49,7 @@ export class Impurity {
         return new Impurity(level, name, text, price, abilities, imgPath)
     }
 
-    public async toItem(compendiumId?: string, folderId?: string, actor?: ActorPF2e): Promise<void> {
+    public async toItem(compendiumId?: string, folderId?: string, actor?: ActorPF2e): Promise<Item | void> {
         // handle nonsense cases
         if (folderId && actor) {
             throw new Error("Cannot create item both in folder and on actor.");
@@ -121,11 +121,11 @@ export class Impurity {
         };
 
         if (compendiumId) {
-            await Item.create(createData, { pack: compendiumId });
+            return await Item.create(createData, { pack: compendiumId });
         } else if (actor) {
-            await Item.create(createData, { parent: actor });
+            return await Item.create(createData, { parent: actor });
         } else {
-            await Item.create(createData);
+            return await Item.create(createData);
         }
     }
 }
