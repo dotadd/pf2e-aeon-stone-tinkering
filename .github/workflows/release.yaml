@@ -112,7 +112,6 @@ jobs:
 
           cat << EOF > post_data.json
           {
-              "dry-run":true,
               "id":"pf2e-aeon-stone-tinkering",
               "release": {
                   "version": "${TAG_VERSION}",
