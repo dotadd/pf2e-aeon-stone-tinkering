@@ -1,5 +1,5 @@
 import { createAeonStone, getComponents, pickComponents, queryForComponents, queryForImpurities, queryForLatticeAndMold } from "./createAeonStoneDialog.js";
-import { createComponents, getCreationContext } from "./createCompendiumItems.js";
+import { createComponents, getCreationContext } from "./createComponents.js";
 import { AbilityCategory, Ability } from "./model/ability.js";
 import { AeonStone } from "./model/aeonStone.js";
 import { Impurity } from "./model/impurity.js";
