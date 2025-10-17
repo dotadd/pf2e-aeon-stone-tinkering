@@ -29,7 +29,7 @@ jobs:
 
       - name: "Install requirements"
         run: |
-          sudo apt install -y jq zip
+          sudo apt install -y jq zip git
 
       - name: "Get version number"
         id: "get_version"
@@ -38,8 +38,8 @@ jobs:
           version_from_package=$(jq -r .version package.json)
 
           if [ $version_from_module != $version_from_package ]; then
-          echo "Version mismatch"
-          exit 1
+            echo "Version mismatch"
+            exit 1
           fi
 
           echo "TAG_VERSION=${version_from_module}" >> "$GITHUB_OUTPUT"
@@ -62,6 +62,26 @@ jobs:
               LICENSE.md \
               scripts/ \
               packs/
+
+      - name: "Delete tag if exists"
+        env:
+          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          TAG_VERSION: "${{ steps.get_version.outputs.TAG_VERSION }}"
+        run: |
+          gh release view ${TAG_VERSION}
+
+          if [ $? = 0 ]; then
+            gh release delete ${TAG_VERSION} --cleanup-tag -y
+            exit 0
+          fi
+
+          # account for tag without release
+          tags=$(git tag -l)
+          for t in ${tags}; do
+              if [ ${t} = ${TAG_VERSION} ]; then
+                  git push --delete origin ${TAG_VERSION}
+              fi
+          done
 
       - name: "Push tag"
         uses: mathieudutour/github-tag-action@v6.2
