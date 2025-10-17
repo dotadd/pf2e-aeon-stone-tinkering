@@ -63,7 +63,6 @@ export async function createJournal(latticeItems, moldItems, impurityItems) {
     }
     // delete journal if exists
     const componentsJournalIndex = pack.index.getName("Components");
-    console.log(componentsJournalIndex);
     if (componentsJournalIndex) {
         if (!componentsJournalIndex._id) {
             throw new Error("_id is somehow undefined.");
@@ -72,7 +71,6 @@ export async function createJournal(latticeItems, moldItems, impurityItems) {
         if (!componentsJournal) {
             throw new Error("Journal somehow vanished.");
         }
-        console.log(componentsJournal);
         componentsJournal.delete();
     }
     await JournalEntry.create({
