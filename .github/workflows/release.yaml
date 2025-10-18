@@ -68,9 +68,9 @@ jobs:
           GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           TAG_VERSION: "${{ steps.get_version.outputs.TAG_VERSION }}"
         run: |
-          gh release view ${TAG_VERSION}
+          release=$(gh release view ${TAG_VERSION} || echo "RELEASE NOT FOUND")
 
-          if [ $? = 0 ]; then
+          if [ "${release}" != "RELEASE NOT FOUND" ]; then
             gh release delete ${TAG_VERSION} --cleanup-tag -y
             exit 0
           fi
@@ -116,7 +116,7 @@ jobs:
               "release": {
                   "version": "${TAG_VERSION}",
                   "manifest": ${manifest},
-                  "notes": "https://github.com/dotadd/pf2e-aeon-stone-tinkering/releases/tag/release-${TAG_VERSION}",
+                  "notes": "https://github.com/dotadd/pf2e-aeon-stone-tinkering/releases/tag/${TAG_VERSION}",
                   "compatibility": {
                   "minimum": ${compat_min},
                   "verified": ${compat_ver}
